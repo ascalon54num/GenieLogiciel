@@ -16,7 +16,12 @@ public class BddController {
     public BddController (){
         this.url=ConfigReader.getProp("urlBdd");
         this.user=ConfigReader.getProp("userBdd");
-        this.password=null;
+        String pwd = ConfigReader.getProp("passwordBdd");
+        if (pwd.equals("null")){
+            this.password = null;
+        } else {
+            this.password = pwd;
+        }
     }
 
     public Connection getConnection(){
@@ -25,7 +30,6 @@ public class BddController {
             connexion = DriverManager.getConnection(url, user, password);
             LOG.warning("Connexion établie avec la base de données");
         } catch (SQLException e) {
-        	e.printStackTrace();
             LOG.severe("Erreur connection à la base de données impossible\r\n"+e.getMessage());
         }
         return connexion;
