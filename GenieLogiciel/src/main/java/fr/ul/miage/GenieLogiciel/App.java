@@ -20,7 +20,7 @@ public class App
         Connection connect = bddController.getConnection();
         
         //test de la fonction ajouter Utilisateur
-        //User utilisateur = new User(); 
-        //utilisateur.addUser(5, "nasri", "nasri", "manel", 1);
+        User utilisateur = new User(); 
+        utilisateur.addUser(5, "nasri", "nasri", "manel", 1);
     }
 }
