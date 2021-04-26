@@ -24,10 +24,11 @@ public class BddController {
         }
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
         Connection connexion = null;
         try {
-            connexion = DriverManager.getConnection(url, user, password);
+        	System.out.println(url+user+password);
+            connexion = DriverManager.getConnection(url, "root", "");
             System.out.println("Connexion établie avec la base de données");
         } catch (SQLException e) {
             LOG.severe("Erreur connection à la base de données impossible\r\n"+e.getMessage());
