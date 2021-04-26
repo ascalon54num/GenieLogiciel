@@ -20,7 +20,7 @@ public class User {
 	public void addUser(int id, String login, String nom, String prenom, int role)throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException  {
 		Connection conn = new BddController().getConnection();
 		Statement stmt = conn.createStatement();
-	    String sql= "INSERT INTO UTILISATEUR VALUES ('"+id+"','"+login+"','"+nom+"','"+prenom+"','"+role+"');";
+	    String sql= " INSERT INTO UTILISATEUR VALUES ('"+id+"','"+login+"','"+nom+"','"+prenom+"','"+role+"');";
 		int rs = stmt.executeUpdate(sql);
 	}
 
