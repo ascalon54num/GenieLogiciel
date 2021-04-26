@@ -24,7 +24,7 @@ public class BddController {
         }
     }
 
-    public Connection getConnection() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+    public Connection getConnection(){
         Connection connexion = null;
         try {
         	System.out.println(url+user+password);

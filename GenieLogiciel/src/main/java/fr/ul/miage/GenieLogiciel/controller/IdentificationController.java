@@ -15,7 +15,7 @@ public class IdentificationController {
 		sc = scan;
 	}
 
-	public void connect(String login) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public void connect(String login) {
 		
 		User u = new User();
 		try {

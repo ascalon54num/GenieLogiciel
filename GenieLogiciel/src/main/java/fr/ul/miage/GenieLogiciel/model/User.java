@@ -67,7 +67,7 @@ public class User {
 		return role;
 	}
 
-	public void findByLogin(String login) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public void findByLogin(String login) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = new BddController().getConnection();
 		Statement stmt = conn.createStatement();
