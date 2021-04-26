@@ -15,6 +15,16 @@ public class User {
 	private String nom;
 	private String prenom;
 	private int role;
+	
+	//Ajouter un utilisateur
+	public void addUser(int id, String login, String nom, String prenom, int role)throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException  {
+		Connection conn = new BddController().getConnection();
+		Statement stmt = conn.createStatement();
+	    String sql= "INSERT INTO UTILISATEUR VALUES ('"+id+"','"+login+"','"+nom+"','"+prenom+"','"+role+"');";
+		int rs = stmt.executeUpdate(sql);
+	}
+
+
 	public User() {
 		id= -1;
 		login= null;
@@ -57,7 +67,7 @@ public class User {
 		return role;
 	}
 
-	public void findByLogin(String login) throws SQLException {
+	public void findByLogin(String login) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
 		Connection conn = new BddController().getConnection();
 		Statement stmt = conn.createStatement();
@@ -71,5 +81,6 @@ public class User {
 			 this.role = rs.getInt("idRole");
 		 }
 	}
+	
 
 }
