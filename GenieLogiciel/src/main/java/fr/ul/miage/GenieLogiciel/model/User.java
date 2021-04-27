@@ -17,11 +17,17 @@ public class User {
 	private int role;
 	
 	//Ajouter un utilisateur
-	public void addUser(int id, String login, String nom, String prenom, int role)throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException  {
+	
+	public void addUser(int id, String login, String nom, String prenom, int role) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		String sql= "INSERT INTO UTILISATEUR VALUES ('"+id+"','"+login+"','"+nom+"','"+prenom+"','"+role+"');";
 		Connection conn = new BddController().getConnection();
-		Statement stmt = conn.createStatement();
-	    String sql= " INSERT INTO UTILISATEUR VALUES ('"+id+"','"+login+"','"+nom+"','"+prenom+"','"+role+"');";
-		int rs = stmt.executeUpdate(sql);
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 
 
