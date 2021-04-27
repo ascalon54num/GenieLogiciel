@@ -1,18 +1,9 @@
 package fr.ul.miage.GenieLogiciel;
-
-import java.sql.Connection;
-<<<<<<< HEAD
 import java.util.Scanner;
 
 import fr.ul.miage.GenieLogiciel.controller.CommandeController;
 import fr.ul.miage.GenieLogiciel.controller.IdentificationController;
 import fr.ul.miage.GenieLogiciel.utils.Session;
-=======
-import java.sql.SQLException;
-
-import fr.ul.miage.GenieLogiciel.controller.BddController;
-import fr.ul.miage.GenieLogiciel.model.User;
->>>>>>> 08a5585aa600be650fc56aa5ef4226968fdac1f5
 
 
 /**
@@ -21,7 +12,7 @@ import fr.ul.miage.GenieLogiciel.model.User;
  */
 public class App 
 {
-    public static void main( String[] args ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+    public static void main( String[] args )
     {
         /**
          * Ce test n'a rien à faire là, cela ce fait dans une classe de test

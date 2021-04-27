@@ -21,7 +21,7 @@ public class IdentificationController {
 		connect(login);
 	}
 
-	public void connect(String login) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public void connect(String login) {
 		
 		User u = new User();
 		try {
@@ -34,7 +34,7 @@ public class IdentificationController {
 			} else {
 				System.out.println("Login inconnu");
 			}
-		} catch (SQLException e) {
+		} catch (SQLException|ClassNotFoundException |InstantiationException |IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			LOG.severe("Erreur connexion utilisateur\r\n"+e.getMessage());
 		}
