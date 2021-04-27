@@ -21,7 +21,7 @@ public class IdentificationController {
 		connect(login);
 	}
 
-	public void connect(String login) {
+	public void connect(String login) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		
 		User u = new User();
 		try {
