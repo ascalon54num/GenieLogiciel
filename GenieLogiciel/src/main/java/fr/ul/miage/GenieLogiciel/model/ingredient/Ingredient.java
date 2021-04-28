@@ -1,6 +1,4 @@
-package fr.ul.miage.GenieLogiciel.model;
-
-import fr.ul.miage.GenieLogiciel.model.repository.IngredientRepository;
+package fr.ul.miage.GenieLogiciel.model.ingredient;
 
 public class Ingredient {
     private int id;
@@ -60,5 +58,10 @@ public class Ingredient {
 
     public void delete() {
         ingredientRepository.deleteById(id);
+    }
+
+    @Override
+    public String toString() {
+        return id + " {nom = " + libelle + ", quantité = " + quantite + "}";
     }
 }

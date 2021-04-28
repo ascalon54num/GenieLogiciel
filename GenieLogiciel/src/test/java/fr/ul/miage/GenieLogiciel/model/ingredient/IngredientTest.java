@@ -1,6 +1,5 @@
-package fr.ul.miage.GenieLogiciel.model;
+package fr.ul.miage.GenieLogiciel.model.ingredient;
 
-import fr.ul.miage.GenieLogiciel.model.repository.IngredientRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -30,7 +30,6 @@ public class BddController {
         Connection connexion = null;
         try {
             connexion = DriverManager.getConnection(url, user, password);
-            System.out.println("Connexion établie avec la base de données");
         } catch (SQLException e) {
             LOG.severe("Erreur connection à la base de données impossible\r\n" + e.getMessage());
         }

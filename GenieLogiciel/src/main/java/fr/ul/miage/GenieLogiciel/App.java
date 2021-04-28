@@ -30,7 +30,7 @@ public class App
         while(Session.getInstance().getCurrentUser() == null) {
         	idController.initIdentification();
         }
-        CommandeController commande = new CommandeController(sc);
-        commande.executeTest();
+        CommandeController commande = CommandeController.getInstance();
+        commande.openAccueilMenu();
     }
 }

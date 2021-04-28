@@ -1,7 +1,6 @@
-package fr.ul.miage.GenieLogiciel.model.repository;
+package fr.ul.miage.GenieLogiciel.model.ingredient;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
-import fr.ul.miage.GenieLogiciel.model.Ingredient;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -10,13 +9,13 @@ import java.util.Map;
 public class IngredientRepository {
 
 
-    public Map<String, Ingredient> findAll() {
+    public Map<Integer, Ingredient> findAll() {
         String query = "SELECT * FROM ingredient";
         BddController bddController = new BddController();
         Connection connection = bddController.getConnection();
         Statement statement = null;
         ResultSet resultSet = null;
-        Map<String, Ingredient> ingredientsMap = new HashMap<>();
+        Map<Integer, Ingredient> ingredientsMap = new HashMap<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
@@ -25,7 +24,7 @@ public class IngredientRepository {
                         .setLibelle(resultSet.getString("libelle"))
                         .setQuantite(resultSet.getInt("quantite"))
                         .setId(resultSet.getInt("idIngredient"));
-                ingredientsMap.put(ingredient.getLibelle(), ingredient);
+                ingredientsMap.put(ingredient.getId(), ingredient);
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -77,7 +76,7 @@ public class IngredientRepository {
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, ingredient.getLibelle());
             preparedStatement.setInt(2, ingredient.getQuantite());
-            if (isCreate) {
+            if (!isCreate) {
                 preparedStatement.setInt(3, ingredient.getId());
             }
             preparedStatement.executeUpdate();
