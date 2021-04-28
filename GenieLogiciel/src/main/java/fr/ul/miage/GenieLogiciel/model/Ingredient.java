@@ -1,18 +1,21 @@
 package fr.ul.miage.GenieLogiciel.model;
 
-import fr.ul.miage.GenieLogiciel.controller.BddController;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
+import fr.ul.miage.GenieLogiciel.model.repository.IngredientRepository;
 
 public class Ingredient {
     private int id;
     private String libelle;
     private int quantite;
+
+    private final IngredientRepository ingredientRepository;
+
+    public Ingredient() {
+        this.ingredientRepository = new IngredientRepository();
+    }
+
+    public Ingredient(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     public int getId() {
         return id;
@@ -41,29 +44,21 @@ public class Ingredient {
         return this;
     }
 
-    public static Map<String, Ingredient> findAll() {
-        String query = "SELECT * FROM ingredient";
-        BddController bddController = new BddController();
-        Connection connection = bddController.getConnection();
-        Statement statement = null;
-        ResultSet resultSet = null;
-        Map<String, Ingredient> ingredientsMap = new HashMap<>();
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                Ingredient ingredient = new Ingredient()
-                        .setLibelle(resultSet.getString("libelle"))
-                        .setQuantite(resultSet.getInt("quantite"))
-                        .setId(resultSet.getInt("idIngredient"));
-                ingredientsMap.put(ingredient.getLibelle(), ingredient);
-            }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            BddController.closeAll(connection, statement, resultSet);
+    public void utiliser(int quantiteAUtiliser) {
+        if (quantite >= quantiteAUtiliser) {
+            quantite -= quantiteAUtiliser;
         }
+    }
 
-        return ingredientsMap;
+    public void ajouter(int quantiteAAjouter) {
+        quantite += quantiteAAjouter;
+    }
+
+    public void save() {
+        ingredientRepository.save(this);
+    }
+
+    public void delete() {
+        ingredientRepository.deleteById(id);
     }
 }
