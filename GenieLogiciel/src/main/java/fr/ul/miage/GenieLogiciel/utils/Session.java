@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.utils;
 
-import fr.ul.miage.GenieLogiciel.model.User;
+import fr.ul.miage.GenieLogiciel.model.user.User;
 
 public class Session {
 

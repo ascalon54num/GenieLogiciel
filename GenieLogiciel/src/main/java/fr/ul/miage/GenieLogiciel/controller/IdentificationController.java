@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import fr.ul.miage.GenieLogiciel.View.IdentificationView;
-import fr.ul.miage.GenieLogiciel.model.User;
+import fr.ul.miage.GenieLogiciel.model.user.User;
 import fr.ul.miage.GenieLogiciel.utils.Session;
 
 public class IdentificationController {

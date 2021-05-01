@@ -1,4 +1,4 @@
-package fr.ul.miage.GenieLogiciel.model;
+package fr.ul.miage.GenieLogiciel.model.user;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,32 +7,38 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
+import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientRepository;
 
 public class User {
 	private static final Logger LOG = Logger.getLogger(User.class.getName());
+	
+    private final UserRepository userRepository;
+
 	private int id;
 	private String login;
 	private String nom;
 	private String prenom;
 	private int role;
 	
-	//Ajouter un utilisateur
 	
-	public void addUser(int id, String login, String nom, String prenom, int role) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		String sql= "INSERT INTO UTILISATEUR VALUES ('"+id+"','"+login+"','"+nom+"','"+prenom+"','"+role+"');";
-		Connection conn = new BddController().getConnection();
-		Statement stmt;
-		try {
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		}
+    public User() {
+        this.userRepository = new UserRepository();
+    }
+
+    public User(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+	 
+	 public int getId() {
+		return id;
 	}
 
-
-	//public void deleteUser(int id) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+/*
 	public User() {
 		id= -1;
 		login= null;
@@ -40,39 +46,50 @@ public class User {
 		prenom=null;
 		role=-1;
 	}
-
+*/
 
 	public String getLogin() {
 		return login;
 	}
 
-	public void setLogin(String login) {
+	public User setLogin(String login) {
 		this.login = login;
+		return this;
 	}
 
 	public String getNom() {
 		return nom;
 	}
 
-	public void setNom(String nom) {
+	public User setNom(String nom) {
 		this.nom = nom;
+		return this;
 	}
 
 	public String getPrenom() {
 		return prenom;
 	}
 
-	public void setPrenom(String prenom) {
+	public User setPrenom(String prenom) {
 		this.prenom = prenom;
+		return this; 
 	}
 
-	public void setRole(int role) {
+	public User setRole(int role) {
 		this.role = role;
+
+	return this;
 	}
 	
 	public int getRole() {
 		// TODO Auto-generated method stub
 		return role;
+	}
+	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", login=" + login + ", nom=" + nom + ", prenom=" + prenom + ", role=" + role + "]";
 	}
 
 	public void findByLogin(String login) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
