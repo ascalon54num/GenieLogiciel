@@ -31,6 +31,8 @@ public class User {
 	}
 
 
+	//public void deleteUser(int id) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+
 	public User() {
 		id= -1;
 		login= null;
