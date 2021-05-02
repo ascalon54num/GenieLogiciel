@@ -2,6 +2,7 @@ package fr.ul.miage.GenieLogiciel.model.ingredient;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
 import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+import fr.ul.miage.GenieLogiciel.model.plat.PlatRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class IngredientPlatRepository {
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, plat.getId());
-            resultSet = preparedStatement.executeQuery(query);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ingredientsPlat.add(generateIngredientPlat(resultSet, plat));
             }
@@ -31,8 +32,32 @@ public class IngredientPlatRepository {
         return ingredientsPlat;
     }
 
+    public IngredientPlat findOneById(int idIngredient, int idPlat) {
+        String query = "SELECT * FROM ingredient_plat WHERE idIngredient = ? AND idPlat = ?";
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        IngredientPlat ingredientPlat = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idIngredient);
+            preparedStatement.setInt(2, idPlat);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                ingredientPlat = generateIngredientPlat(resultSet);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, resultSet);
+        }
+
+        return ingredientPlat;
+    }
+
     public boolean checkIfExistIngredientPlat(IngredientPlat ingredientPlat) {
-        String query = "SELECT * FROM ingredient_plat WHERE idIngredient = ? and idPlat = ?";
+        String query = "SELECT * FROM ingredient_plat WHERE idIngredient = ? AND idPlat = ?";
         BddController bddController = new BddController();
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
@@ -42,7 +67,7 @@ public class IngredientPlatRepository {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, ingredientPlat.getIngredient().getId());
             preparedStatement.setInt(2, ingredientPlat.getPlat().getId());
-            resultSet = preparedStatement.executeQuery(query);
+            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 exist = true;
             }
@@ -70,9 +95,7 @@ public class IngredientPlatRepository {
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, ingredientPlat.getQuantite());
             preparedStatement.setInt(2, ingredientPlat.getIngredient().getId());
-            if (!isCreate) {
-                preparedStatement.setInt(3, ingredientPlat.getPlat().getId());
-            }
+            preparedStatement.setInt(3, ingredientPlat.getPlat().getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException exception) {
@@ -88,7 +111,7 @@ public class IngredientPlatRepository {
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            String query = "DELETE FROM ingredient WHERE idIngredient = ? AND idPlat = ?";
+            String query = "DELETE FROM ingredient_plat WHERE idIngredient = ? AND idPlat = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idIngredient);
             preparedStatement.setInt(2, idPlat);
@@ -105,5 +128,12 @@ public class IngredientPlatRepository {
                 .setIngredient(new IngredientRepository().findOneById(resultSet.getInt("idIngredient")))
                 .setQuantite(resultSet.getInt("quantite"))
                 .setPlat(plat);
+    }
+
+    private IngredientPlat generateIngredientPlat(ResultSet resultSet) throws SQLException {
+        return new IngredientPlat()
+                .setIngredient(new IngredientRepository().findOneById(resultSet.getInt("idIngredient")))
+                .setQuantite(resultSet.getInt("quantite"))
+                .setPlat(new PlatRepository().findOneById(resultSet.getInt("idPlat")));
     }
 }

@@ -1,5 +1,7 @@
 package fr.ul.miage.GenieLogiciel.model.categorie;
 
+import java.util.Objects;
+
 public class Categorie {
     private int id;
     private String libelle;
@@ -43,5 +45,13 @@ public class Categorie {
     @Override
     public String toString() {
         return id + " {nom = " + libelle + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Categorie categorie = (Categorie) o;
+        return id == categorie.id && Objects.equals(libelle, categorie.libelle);
     }
 }

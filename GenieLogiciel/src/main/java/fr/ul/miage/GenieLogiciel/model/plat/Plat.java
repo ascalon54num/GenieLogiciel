@@ -4,6 +4,7 @@ import fr.ul.miage.GenieLogiciel.model.categorie.Categorie;
 import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlat;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Plat {
     private int id;
@@ -98,7 +99,20 @@ public class Plat {
     }
 
     public void choisir() {
-        // TODO Choix d'un plat qui implique la consommation d'ingrédients
+        if (canChoose()) {
+            ingredients.forEach(IngredientPlat::utiliser);
+        }
+    }
+
+    public boolean canChoose() {
+        boolean res = true;
+        for (IngredientPlat ingredientPlat : ingredients) {
+            if (!ingredientPlat.canUse()) {
+                res = false;
+                break;
+            }
+        }
+        return res;
     }
 
     public void save() {
@@ -112,5 +126,14 @@ public class Plat {
     @Override
     public String toString() {
         return id + " {nom = " + libelle + ", prix = " + prix + ", categorie = " + categorie.getLibelle() + ", plat du jour = " + isPlatDuJour + ", disponible = " + isDisponible + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // Pas de verif de la liste d'ingredients
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plat plat = (Plat) o;
+        return id == plat.id && Double.compare(plat.prix, prix) == 0 && isPlatDuJour == plat.isPlatDuJour && isDisponible == plat.isDisponible && Objects.equals(libelle, plat.libelle) && categorie.equals(plat.categorie);
     }
 }

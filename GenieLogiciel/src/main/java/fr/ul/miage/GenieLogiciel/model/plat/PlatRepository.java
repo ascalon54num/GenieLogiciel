@@ -116,7 +116,7 @@ public class PlatRepository {
                 .setPlatDuJour(resultSet.getInt("isPlatDuJour"))
                 .setDisponible(resultSet.getInt("isDisponible"))
                 .setLibelle(resultSet.getString("libelle"))
-                .setId(resultSet.getInt("idIngredient"))
+                .setId(resultSet.getInt("idPlat"))
                 .setPrix(resultSet.getDouble("prix"));
         plat.setIngredients(new IngredientPlatRepository().findByPlat(plat));
         return plat;
