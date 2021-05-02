@@ -1,7 +1,7 @@
 package fr.ul.miage.GenieLogiciel.model.plat;
 
 import fr.ul.miage.GenieLogiciel.model.categorie.Categorie;
-import fr.ul.miage.GenieLogiciel.model.ingredient.Ingredient;
+import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlat;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class Plat {
     private boolean isPlatDuJour;
     private Categorie categorie;
     private boolean isDisponible;
-    private List<Ingredient> ingredients;
+    private List<IngredientPlat> ingredients;
 
     private final PlatRepository platRepository;
 
@@ -88,11 +88,11 @@ public class Plat {
         return this;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientPlat> getIngredients() {
         return ingredients;
     }
 
-    public Plat setIngredients(List<Ingredient> ingredients) {
+    public Plat setIngredients(List<IngredientPlat> ingredients) {
         this.ingredients = ingredients;
         return this;
     }

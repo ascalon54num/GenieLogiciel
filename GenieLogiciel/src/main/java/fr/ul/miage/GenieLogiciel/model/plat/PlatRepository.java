@@ -2,6 +2,7 @@ package fr.ul.miage.GenieLogiciel.model.plat;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
 import fr.ul.miage.GenieLogiciel.model.categorie.CategorieRepository;
+import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlatRepository;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -110,12 +111,14 @@ public class PlatRepository {
     }
 
     private Plat generatePlat(ResultSet resultSet) throws SQLException {
-        return new Plat()
+        Plat plat = new Plat()
                 .setCategorie(new CategorieRepository().findOneById(resultSet.getInt("idCategorie")))
                 .setPlatDuJour(resultSet.getInt("isPlatDuJour"))
                 .setDisponible(resultSet.getInt("isDisponible"))
                 .setLibelle(resultSet.getString("libelle"))
                 .setId(resultSet.getInt("idIngredient"))
                 .setPrix(resultSet.getDouble("prix"));
+        plat.setIngredients(new IngredientPlatRepository().findByPlat(plat));
+        return plat;
     }
 }
