@@ -123,6 +123,22 @@ public class IngredientPlatRepository {
         }
     }
 
+    public void deleteByIdPlat(int id) {
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            String query = "DELETE FROM ingredient_plat WHERE idPlat = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, null);
+        }
+    }
+
     private IngredientPlat generateIngredientPlat(ResultSet resultSet, Plat plat) throws SQLException {
         return new IngredientPlat()
                 .setIngredient(new IngredientRepository().findOneById(resultSet.getInt("idIngredient")))

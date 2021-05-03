@@ -125,7 +125,14 @@ public class Plat {
 
     @Override
     public String toString() {
-        return id + " {nom = " + libelle + ", prix = " + prix + ", categorie = " + categorie.getLibelle() + ", plat du jour = " + isPlatDuJour + ", disponible = " + isDisponible + "}";
+        StringBuilder strIngredients = new StringBuilder("(");
+        for (IngredientPlat ingredient : ingredients) {
+            strIngredients.append(ingredient.getIngredient().getLibelle());
+            strIngredients.append(", ");
+        }
+        strIngredients.delete(strIngredients.length() - 2, strIngredients.length());
+        strIngredients.append(")");
+        return id + " {nom = " + libelle + ", prix = " + prix + ", categorie = " + categorie.getLibelle() + ", plat du jour = " + isPlatDuJour + ", disponible = " + isDisponible + ", ingrédients = " + strIngredients + "}";
     }
 
     @Override

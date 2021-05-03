@@ -7,6 +7,7 @@ import fr.ul.miage.GenieLogiciel.model.OperationExempleReceiver;
 import fr.ul.miage.GenieLogiciel.model.accueil.DisplayMenuAccueil;
 import fr.ul.miage.GenieLogiciel.model.categorie.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.plat.cmd.*;
 
 public class CommandeController {
 
@@ -15,10 +16,12 @@ public class CommandeController {
     private static final CommandeController instance = new CommandeController();
 
     private final CategorieCmd categorieCmd;
+    private final PlatCmd platCmd;
 
     private CommandeController() {
         executor = new CommandExecutor();
         categorieCmd = new CategorieCmd();
+        platCmd = new PlatCmd();
     }
 
     public static CommandeController getInstance() {
@@ -97,5 +100,32 @@ public class CommandeController {
     public void supprimerCategorie() {
         executor.executeOperation(new DeleteCategorie(categorieCmd));
         openCategorieMenu();
+    }
+
+    ///////////
+    // PLATS //
+    ///////////
+    public void openPlatMenu() {
+        executor.executeOperation(new DisplayMenuPlat(new MenuPlatView()));
+    }
+
+    public void listePlat() {
+        executor.executeOperation(new ListePlat(platCmd));
+        openPlatMenu();
+    }
+
+    public void ajouterPlat() {
+        executor.executeOperation(new AddPlat(platCmd));
+        openPlatMenu();
+    }
+
+    public void modifierPlat() {
+        executor.executeOperation(new EditPlat(platCmd));
+        openPlatMenu();
+    }
+
+    public void supprimerPlat() {
+        executor.executeOperation(new DeletePlat(platCmd));
+        openPlatMenu();
     }
 }

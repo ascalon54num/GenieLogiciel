@@ -99,7 +99,12 @@ public class PlatRepository {
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            String query = "DELETE FROM plat WHERE idPlat = ?";
+            String query = "DELETE FROM ingredient_plat WHERE idPlat = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+            query = "DELETE FROM plat WHERE idPlat = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
