@@ -1,6 +1,8 @@
 package fr.ul.miage.GenieLogiciel.model.categorie;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
+import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlatRepository;
+import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -50,6 +52,30 @@ public class CategorieRepository {
             exception.printStackTrace();
         } finally {
             BddController.closeAll(connection, statement, resultSet);
+        }
+
+        return platMap;
+    }
+
+    public Map<Integer, Plat> findPlatsByIdCategory(int id) {
+        String query = "SELECT * FROM plat WHERE idCategorie = ?";
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Plat> platMap = new HashMap<>();
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Plat plat = generatePlat(resultSet);
+                platMap.put(plat.getId(), plat);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, resultSet);
         }
 
         return platMap;
@@ -109,6 +135,18 @@ public class CategorieRepository {
     private Categorie generateCategorie(ResultSet resultSet) throws SQLException {
         return new Categorie()
                 .setLibelle(resultSet.getString("libelle"))
-                .setId(resultSet.getInt("idIngredient"));
+                .setId(resultSet.getInt("idCategorie"));
+    }
+
+    private Plat generatePlat(ResultSet resultSet) throws SQLException {
+        Plat plat = new Plat()
+                .setCategorie(new CategorieRepository().findOneById(resultSet.getInt("idCategorie")))
+                .setPlatDuJour(resultSet.getInt("isPlatDuJour"))
+                .setDisponible(resultSet.getInt("isDisponible"))
+                .setLibelle(resultSet.getString("libelle"))
+                .setId(resultSet.getInt("idPlat"))
+                .setPrix(resultSet.getDouble("prix"));
+        plat.setIngredients(new IngredientPlatRepository().findByPlat(plat));
+        return plat;
     }
 }

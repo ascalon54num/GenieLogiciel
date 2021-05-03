@@ -1,5 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.categorie;
 
+import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 import org.junit.jupiter.api.*;
 
 import java.util.Optional;
@@ -39,6 +40,32 @@ class CategorieRepositoryTest {
 
         // Then
         Assertions.assertFalse(actual);
+    }
+
+    @Test
+    @DisplayName("Devrait avoir 1 plat")
+    void shouldFindPlatsByIdCategoryOk() {
+        // Given
+        POISSON.save();
+        Plat COLIN_FUME = new Plat().setCategorie(POISSON).setDisponible(true).setPrix(7.20).setLibelle("Colin fumé").setPlatDuJour(true);
+        COLIN_FUME.save();
+        // When
+        subject.save(POISSON);
+        boolean actual = subject.findPlatsByIdCategory(POISSON.getId()).isEmpty();
+
+        // Then
+        COLIN_FUME.delete();
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    @DisplayName("Devrait ne pas avoir de plat")
+    void shouldFindPlatsByIdCategoryKo() {
+        // When
+        boolean actual = subject.findPlatsByIdCategory(POISSON.getId()).isEmpty();
+
+        // Then
+        Assertions.assertTrue(actual);
     }
 
     @Test

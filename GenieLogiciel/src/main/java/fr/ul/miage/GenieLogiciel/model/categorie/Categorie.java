@@ -1,5 +1,8 @@
 package fr.ul.miage.GenieLogiciel.model.categorie;
 
+import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+
+import java.util.Map;
 import java.util.Objects;
 
 public class Categorie {
@@ -12,8 +15,8 @@ public class Categorie {
         this.categorieRepository = new CategorieRepository();
     }
 
-    public Categorie(CategorieRepository platRepository) {
-        this.categorieRepository = platRepository;
+    public Categorie(CategorieRepository categorieRepository) {
+        this.categorieRepository = categorieRepository;
     }
 
     public int getId() {
@@ -40,6 +43,10 @@ public class Categorie {
 
     public void delete() {
         categorieRepository.deleteById(id);
+    }
+
+    public Map<Integer, Plat> getPlats() {
+        return categorieRepository.findPlatsByIdCategory(id);
     }
 
     @Override
