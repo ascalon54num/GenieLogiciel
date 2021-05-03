@@ -80,4 +80,22 @@ public class UserRepository {
             BddController.closeAll(connection, statement, null);
         }
     }
+    
+    public User findByLogin(String login) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		Connection conn = new BddController().getConnection();
+		Statement stmt = conn.createStatement();
+	    String sql= "SELECT * FROM UTILISATEUR WHERE login ='"+login+"';";
+		ResultSet rs = stmt.executeQuery(sql);
+		User u = null;
+		 while(rs.next()){
+			 u =new User();
+			 u.setId(rs.getInt("idUtilisateur"));
+			 u.setLogin(rs.getString("login"));
+			 u.setNom(rs.getString("nom"));
+			 u.setPrenom(rs.getString("prenom"));
+			 u.setRole(rs.getInt("idRole"));
+		 }
+		 return u;
+	}
 }
