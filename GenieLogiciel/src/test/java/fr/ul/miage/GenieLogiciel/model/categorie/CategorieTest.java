@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +40,7 @@ class CategorieTest {
         Plat COLIN_FUME = new Plat().setId(10).setCategorie(subject).setDisponible(true).setPrix(7.20).setLibelle("Colin fumé").setPlatDuJour(true);
 
         // When
-        Mockito.when(categorieRepository.findPlatsByIdCategory(subject.getId())).thenReturn(new HashMap<>() {{
+        Mockito.when(categorieRepository.findPlatsByIdCategory(subject.getId())).thenReturn(new TreeMap<>() {{
             put(10, COLIN_FUME);
         }});
         Map<Integer, Plat> plats = subject.getPlats();
@@ -57,7 +57,7 @@ class CategorieTest {
         subject.setId(1).setLibelle("Poisson");
 
         // When
-        Mockito.when(categorieRepository.findPlatsByIdCategory(subject.getId())).thenReturn(new HashMap<>());
+        Mockito.when(categorieRepository.findPlatsByIdCategory(subject.getId())).thenReturn(new TreeMap<>());
         Map<Integer, Plat> plats = subject.getPlats();
 
         // Then

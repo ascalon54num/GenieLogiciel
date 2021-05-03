@@ -3,7 +3,7 @@ package fr.ul.miage.GenieLogiciel.model.ingredient;
 import fr.ul.miage.GenieLogiciel.controller.BddController;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 public class IngredientRepository {
@@ -15,7 +15,7 @@ public class IngredientRepository {
         Connection connection = bddController.getConnection();
         Statement statement = null;
         ResultSet resultSet = null;
-        Map<Integer, Ingredient> ingredientsMap = new HashMap<>();
+        Map<Integer, Ingredient> ingredientsMap = new TreeMap<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);

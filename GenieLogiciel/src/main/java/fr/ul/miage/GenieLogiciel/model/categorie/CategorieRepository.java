@@ -5,7 +5,7 @@ import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlatRepository;
 import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 public class CategorieRepository {
@@ -40,7 +40,7 @@ public class CategorieRepository {
         Connection connection = bddController.getConnection();
         Statement statement = null;
         ResultSet resultSet = null;
-        Map<Integer, Categorie> platMap = new HashMap<>();
+        Map<Integer, Categorie> platMap = new TreeMap<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
@@ -63,7 +63,7 @@ public class CategorieRepository {
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        Map<Integer, Plat> platMap = new HashMap<>();
+        Map<Integer, Plat> platMap = new TreeMap<>();
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
