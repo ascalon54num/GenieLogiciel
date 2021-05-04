@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import fr.ul.miage.GenieLogiciel.View.IdentificationView;
 import fr.ul.miage.GenieLogiciel.model.user.User;
+import fr.ul.miage.GenieLogiciel.model.user.UserRepository;
 import fr.ul.miage.GenieLogiciel.utils.Session;
 
 public class IdentificationController {
@@ -23,11 +24,10 @@ public class IdentificationController {
 
 	public void connect(String login) {
 		
-		User u = new User();
 		try {
 			System.out.println("Connexion en tant que "+login);
-			u.findByLogin(login);
-			if(u.getLogin() != null) {
+			User u = new UserRepository().findByLogin(login);
+			if(u != null) {
 				System.out.println("Connexion utilisateur réussie");
 				Session.getInstance().setCurrentUser(u);
 				System.out.println("Session établie");

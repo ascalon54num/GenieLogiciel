@@ -94,21 +94,5 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", nom=" + nom + ", prenom=" + prenom + ", role=" + role + "]";
 	}
-
-	public void findByLogin(String login) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-		// TODO Auto-generated method stub
-		Connection conn = new BddController().getConnection();
-		Statement stmt = conn.createStatement();
-	    String sql= "SELECT * FROM UTILISATEUR WHERE login ='"+login+"';";
-		ResultSet rs = stmt.executeQuery(sql);
-		 while(rs.next()){
-			 this.id = rs.getInt("idUtilisateur");
-			 this.login = rs.getString("login");
-			 this.nom = rs.getString("nom");
-			 this.prenom = rs.getString("prenom");
-			 this.role = rs.getInt("idRole");
-		 }
-	}
 	
-
 }
