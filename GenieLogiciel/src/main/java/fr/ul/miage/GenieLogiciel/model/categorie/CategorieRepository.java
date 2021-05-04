@@ -3,6 +3,7 @@ package fr.ul.miage.GenieLogiciel.model.categorie;
 import fr.ul.miage.GenieLogiciel.controller.BddController;
 import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlatRepository;
 import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+import fr.ul.miage.GenieLogiciel.model.plat.PlatRepository;
 
 import java.sql.*;
 import java.util.TreeMap;
@@ -45,7 +46,7 @@ public class CategorieRepository {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                Categorie categorie = generateCategorie(resultSet);
+                Categorie categorie = CategorieRepository.generateCategorie(resultSet);
                 platMap.put(categorie.getId(), categorie);
             }
         } catch (SQLException exception) {
@@ -69,7 +70,7 @@ public class CategorieRepository {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Plat plat = generatePlat(resultSet);
+                Plat plat = PlatRepository.generatePlat(resultSet);
                 platMap.put(plat.getId(), plat);
             }
         } catch (SQLException exception) {
@@ -132,21 +133,9 @@ public class CategorieRepository {
         }
     }
 
-    private Categorie generateCategorie(ResultSet resultSet) throws SQLException {
+    public static Categorie generateCategorie(ResultSet resultSet) throws SQLException {
         return new Categorie()
                 .setLibelle(resultSet.getString("libelle"))
                 .setId(resultSet.getInt("idCategorie"));
-    }
-
-    private Plat generatePlat(ResultSet resultSet) throws SQLException {
-        Plat plat = new Plat()
-                .setCategorie(new CategorieRepository().findOneById(resultSet.getInt("idCategorie")))
-                .setPlatDuJour(resultSet.getInt("isPlatDuJour"))
-                .setDisponible(resultSet.getInt("isDisponible"))
-                .setLibelle(resultSet.getString("libelle"))
-                .setId(resultSet.getInt("idPlat"))
-                .setPrix(resultSet.getDouble("prix"));
-        plat.setIngredients(new IngredientPlatRepository().findByPlat(plat));
-        return plat;
     }
 }

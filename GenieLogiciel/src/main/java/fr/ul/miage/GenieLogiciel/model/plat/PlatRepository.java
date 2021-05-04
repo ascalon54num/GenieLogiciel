@@ -20,7 +20,7 @@ public class PlatRepository {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                Plat plat = generatePlat(resultSet);
+                Plat plat = PlatRepository.generatePlat(resultSet);
                 platMap.put(plat.getId(), plat);
             }
         } catch (SQLException exception) {
@@ -44,7 +44,7 @@ public class PlatRepository {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                plat = generatePlat(resultSet);
+                plat = PlatRepository.generatePlat(resultSet);
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -115,7 +115,7 @@ public class PlatRepository {
         }
     }
 
-    private Plat generatePlat(ResultSet resultSet) throws SQLException {
+    public static Plat generatePlat(ResultSet resultSet) throws SQLException {
         Plat plat = new Plat()
                 .setCategorie(new CategorieRepository().findOneById(resultSet.getInt("idCategorie")))
                 .setPlatDuJour(resultSet.getInt("isPlatDuJour"))
