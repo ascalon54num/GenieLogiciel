@@ -1,5 +1,7 @@
 package fr.ul.miage.GenieLogiciel.model.ingredient;
 
+import java.util.Objects;
+
 public class Ingredient {
     private int id;
     private String libelle;
@@ -63,5 +65,13 @@ public class Ingredient {
     @Override
     public String toString() {
         return id + " {nom = " + libelle + ", quantité = " + quantite + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return id == that.id && quantite == that.quantite && Objects.equals(libelle, that.libelle);
     }
 }

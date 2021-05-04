@@ -1,5 +1,7 @@
 package fr.ul.miage.GenieLogiciel.utils;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class ScannerWithCheck {
@@ -34,6 +36,27 @@ public class ScannerWithCheck {
                 if (val.length() > maxLength) {
                     scan.nextLine();
                     System.err.println("Trop long !");
+                } else {
+                    isFinish = true;
+                }
+            } else {
+                scan.nextLine();
+                System.err.println("Erreur de saisie");
+            }
+        } while (!isFinish);
+        return val;
+    }
+
+    public static double scannerDoubleUtilisateur() {
+        Scanner scan = new Scanner(System.in);
+        boolean isFinish = false;
+        double val = 0.0;
+        do {
+            if (scan.hasNextDouble()) {
+                val = scan.nextDouble();
+                if (val < 0.0 || val == 0.0 || val >= 1000.0 || BigDecimal.valueOf(val).scale() > 2) {
+                    scan.nextLine();
+                    System.err.println("Erreur de saisie");
                 } else {
                     isFinish = true;
                 }
