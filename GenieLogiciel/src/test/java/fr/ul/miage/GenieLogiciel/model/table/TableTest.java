@@ -11,8 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.ul.miage.GenieLogiciel.model.ingredient.Ingredient;
-import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class TableTest {
