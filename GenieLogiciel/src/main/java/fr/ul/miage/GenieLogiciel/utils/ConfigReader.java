@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    private final static String URL_CONFIG = "./src/main/java/fr/ul/miage/GenieLogiciel/config/config.conf";
+    private final static String URL_CONFIG = "./src/main/java/fr/ul/miage/GenieLogiciel/config/config_exemple.conf";
     private final static ConfigReader instance = new ConfigReader();
 
     private final Properties props;

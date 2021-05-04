@@ -86,7 +86,10 @@ public class User {
 		return role;
 	}
 	
-
+	public void delete() {
+        userRepository.deleteById(id);
+    }
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", nom=" + nom + ", prenom=" + prenom + ", role=" + role + "]";

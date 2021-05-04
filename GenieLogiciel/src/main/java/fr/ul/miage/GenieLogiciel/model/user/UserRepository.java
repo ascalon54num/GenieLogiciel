@@ -55,7 +55,7 @@ public class UserRepository {
         Statement statement = null;
 
         try {
-            String query = "DELETE FROM UTILISATEUR WHERE id = "+id;
+            String query = "DELETE FROM UTILISATEUR WHERE idUtilisateur = "+id;
             statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException exception) {
