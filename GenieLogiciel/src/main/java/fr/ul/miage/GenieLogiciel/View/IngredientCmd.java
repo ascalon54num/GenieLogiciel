@@ -27,18 +27,13 @@ public class IngredientCmd {
         IngredientRepository ingredientRepository = new IngredientRepository();
         Map<Integer, Ingredient> ingredients = ingredientRepository.findAll();
         ingredients.forEach((id, ingredient) -> System.out.println(ingredient));
-        System.out.print("Id de l'ingrédient à modifier : ");
+        System.out.print("Id de l'ingrédient à supprimer : ");
         int idIngredient = ScannerWithCheck.scannerIntUtilisateur(false, -1);
 
         if (ingredients.containsKey(idIngredient)) {
             Ingredient ingredient = ingredients.get(idIngredient);
-            System.out.print("Nouveau nom (" + ingredient.getLibelle() + ") : ");
-            ingredient.setLibelle(ScannerWithCheck.scannerStringUtilisateur(50));
-            System.out.print("Nouvelle quantité (" + ingredient.getQuantite() + ") : ");
-            ingredient.setQuantite(ScannerWithCheck.scannerIntUtilisateur(true, QUANTITE_MAX_INGREDIENT));
-            ingredient.save();
-
-            System.out.println("Ingrédient modifié = " + ingredient);
+            ingredient.delete();
+            System.out.println("Ingrédient supprimé = " + ingredient);
         } else {
             System.err.println("Erreur de saisie");
         }
