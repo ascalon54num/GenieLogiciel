@@ -9,18 +9,18 @@ public class MenuAccueilView {
         System.out.println("=============================================================");
         System.out.println("MENU PRINCIPAL :");
         displayMenuMain();
-        System.out.print("Faites votre choix (1-2) : ");
-        int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 2);
+        System.out.print("Faites votre choix (1-4) : ");
+        int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 4);
         getPage(idMenu);
     }
 
     private void displayMenuMain() {
         System.out.println(
-                "┌─────────────┬─────────┐\n" +
-                        "│ Ingredients │ Quitter │\n" +
-                        "├─────────────┼─────────┤\n" +
-                        "│      1      │    2    │\n" +
-                        "└─────────────┴─────────┘"
+                "┌─────────────┬────────┬─────────┐\n" +
+                        "│ Ingredients │ Tables │ Quitter │\n" +
+                        "├─────────────┼────────┼─────────┤\n" +
+                        "│      1      │    3   │    4    │\n" +
+                        "└─────────────┴────────┴─────────┘"
         );
     }
 
@@ -29,8 +29,10 @@ public class MenuAccueilView {
             case 1:
                 CommandeController.getInstance().openIngredientMenu();
                 break;
-
-            case 2:
+            case 3:
+            	CommandeController.getInstance().openTableMenu();
+            	break;
+            case 4:
                 System.exit(0);
                 break;
         }
