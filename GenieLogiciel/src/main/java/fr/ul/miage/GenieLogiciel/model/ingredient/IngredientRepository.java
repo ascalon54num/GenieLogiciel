@@ -1,6 +1,8 @@
 package fr.ul.miage.GenieLogiciel.model.ingredient;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
+import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+import fr.ul.miage.GenieLogiciel.model.plat.PlatRepository;
 
 import java.sql.*;
 import java.util.TreeMap;
@@ -59,6 +61,30 @@ public class IngredientRepository {
         }
 
         return ingredient;
+    }
+
+    public Map<Integer, Plat> findPlatsByIdIngredient(int id) {
+        String query = "SELECT plat.* FROM plat NATURAL JOIN ingredient_plat WHERE idIngredient = ?";
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Plat> platMap = new TreeMap<>();
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Plat plat = PlatRepository.generatePlat(resultSet);
+                platMap.put(plat.getId(), plat);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, resultSet);
+        }
+
+        return platMap;
     }
 
     public Ingredient save(Ingredient ingredient) {
