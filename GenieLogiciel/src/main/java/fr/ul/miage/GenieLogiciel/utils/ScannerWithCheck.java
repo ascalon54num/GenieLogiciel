@@ -23,7 +23,6 @@ public class ScannerWithCheck {
                 System.err.println("Erreur de saisie");
             }
         } while (!isFinish);
-        scan.close();
         return val;
     }
 
@@ -45,7 +44,6 @@ public class ScannerWithCheck {
                 System.err.println("Erreur de saisie");
             }
         } while (!isFinish);
-        scan.close();
         return val;
     }
     
@@ -70,7 +68,6 @@ public class ScannerWithCheck {
                 System.err.println("Erreur de saisie");
             }
         }while (!isFinish);
-        scan.close();
         return val;
     }
 
@@ -92,7 +89,6 @@ public static double scannerDoubleUtilisateur() {
             System.err.println("Erreur de saisie");
         }
     } while (!isFinish);
-    scan.close();
     return val;
     }
 }
