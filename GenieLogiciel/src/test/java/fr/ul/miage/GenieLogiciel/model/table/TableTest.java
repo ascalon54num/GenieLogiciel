@@ -30,7 +30,7 @@ public class TableTest {
 	}
 
 	@Test
-	@DisplayName("Devrait retourner le même ingrédient")
+	@DisplayName("Devrait retourner la même table")
 	void shouldSaveOk() {
 		// Given
 		subject.setId(1).setStatut("Libre").setNbCouvert(5);

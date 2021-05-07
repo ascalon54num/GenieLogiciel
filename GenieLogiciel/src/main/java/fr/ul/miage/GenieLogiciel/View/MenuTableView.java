@@ -30,10 +30,10 @@ public class MenuTableView {
 	            CommandeController.getInstance().supprimerTable();
 	            break;
 	        case 5:
-	            CommandeController.getInstance().attribuerTable();
+	            CommandeController.getInstance().affecterTable();
 	            break;
 	        case 6:
-	            CommandeController.getInstance().viderTable();
+	            CommandeController.getInstance().showTable();
 	            break;
 	        case 7:
 	            CommandeController.getInstance().openAccueilMenu();
@@ -43,11 +43,11 @@ public class MenuTableView {
 
 	private void displayMenuMainTable() {
 		System.out.println(
-                "┌───────┬─────────┬──────────┬───────────┬───────────┬───────┬────────┐\n" +
-                        "│ Liste │ Ajouter │ Modifier │ Supprimer │ Attribuer │ Vider │ Retour │\n" +
-                        "├───────┼─────────┼──────────┼───────────┼───────────┼───────┼────────┤\n" +
-                        "│   1   │    2    │    3     │     4     │     5     │   6   │   7    │\n" +
-                        "└───────┴─────────┴──────────┴───────────┴───────────┴───────┴────────┘"
+                "┌────────┬─────────┬──────────┬───────────┬───────────┬────────────┬────────┐\n" +
+                        "│ Lister │ Ajouter │ Modifier │ Supprimer │  Affecter │ Visualiser │ Retour │\n" +
+                        "├────────┼─────────┼──────────┼───────────┼───────────┼────────────┼────────┤\n" +
+                        "│    1   │    2    │     3    │     4     │     5     │      6     │   7    │\n" +
+                        "└────────┴─────────┴──────────┴───────────┴───────────┴────────────┴────────┘"
         );
 	}
 

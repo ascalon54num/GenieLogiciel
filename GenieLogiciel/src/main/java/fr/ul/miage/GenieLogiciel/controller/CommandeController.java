@@ -17,6 +17,7 @@ import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.DisplayMenuIngredient;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.RemplirIngredient;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.ViderIngredient;
 import fr.ul.miage.GenieLogiciel.model.table.cmd.AddTable;
+import fr.ul.miage.GenieLogiciel.model.table.cmd.AffecterTable;
 import fr.ul.miage.GenieLogiciel.model.table.cmd.DisplayMenuTable;
 import fr.ul.miage.GenieLogiciel.model.table.cmd.ListeTable;
 
@@ -103,19 +104,23 @@ public class CommandeController {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void changerStatutTable( ) {
+		
+	}
+	
+	public void showTable( ) {
+		
+	}
 
 	public void supprimerTable() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void attribuerTable() {
-		// TODO Auto-generated method stub
-		
+	public void affecterTable() {
+		executor.executeOperation(new AffecterTable(new TableCmd()));
+        openTableMenu();
 	}
 
-	public void viderTable() {
-		// TODO Auto-generated method stub
-		
-	}
 }

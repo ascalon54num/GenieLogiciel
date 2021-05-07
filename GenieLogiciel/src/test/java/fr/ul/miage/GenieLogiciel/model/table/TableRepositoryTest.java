@@ -1,15 +1,11 @@
 package fr.ul.miage.GenieLogiciel.model.table;
 
 import java.util.Optional;
-import java.util.Scanner;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import fr.ul.miage.GenieLogiciel.controller.CommandeController;
-import fr.ul.miage.GenieLogiciel.controller.IdentificationController;
 
 
 public class TableRepositoryTest {

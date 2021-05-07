@@ -98,4 +98,58 @@ public class UserRepository {
 		 }
 		 return u;
 	}
+
+	public Map<Integer, User> findByRole(Integer id) {
+		Connection conn = new BddController().getConnection();
+	    String query= "SELECT * FROM UTILISATEUR WHERE idRole ='"+id+"';";
+	    Statement statement = null;
+        ResultSet resultSet = null;
+        Map<Integer, User> usersMap = new HashMap<>();
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	User user = new User(); 
+            	user.setLogin(resultSet.getString("login"));
+            	user.setNom(resultSet.getString("nom"));
+            	user.setPrenom(resultSet.getString("prenom"));
+            	user.setRole(resultSet.getInt("idRole"));
+                user.setId(resultSet.getInt("idUtilisateur"));
+                usersMap.put(user.getId(), user);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(conn, statement, resultSet);
+        }
+		return usersMap;
+	}
+	
+	public User findOneById(int id) {
+        String query = "SELECT * FROM utilisateur WHERE idUtilisateur = ?";
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                user = new User();
+                user.setLogin(resultSet.getString("login"));
+            	user.setNom(resultSet.getString("nom"));
+            	user.setPrenom(resultSet.getString("prenom"));
+            	user.setRole(resultSet.getInt("idRole"));
+                user.setId(resultSet.getInt("idUtilisateur"));
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, resultSet);
+        }
+
+        return user;
+    }
 }
