@@ -1,6 +1,7 @@
 package fr.ul.miage.GenieLogiciel.utils;
 
 import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class ScannerWithCheck {
@@ -22,6 +23,7 @@ public class ScannerWithCheck {
                 System.err.println("Erreur de saisie");
             }
         } while (!isFinish);
+        scan.close();
         return val;
     }
 
@@ -43,6 +45,7 @@ public class ScannerWithCheck {
                 System.err.println("Erreur de saisie");
             }
         } while (!isFinish);
+        scan.close();
         return val;
     }
     
@@ -67,6 +70,29 @@ public class ScannerWithCheck {
                 System.err.println("Erreur de saisie");
             }
         }while (!isFinish);
+        scan.close();
         return val;
+    }
+
+public static double scannerDoubleUtilisateur() {
+    Scanner scan = new Scanner(System.in);
+    boolean isFinish = false;
+    double val = 0.0;
+    do {
+        if (scan.hasNextDouble()) {
+            val = scan.nextDouble();
+            if (val < 0.0 || val == 0.0 || val >= 1000.0 || BigDecimal.valueOf(val).scale() > 2) {
+                scan.nextLine();
+                System.err.println("Erreur de saisie");
+            } else {
+                isFinish = true;
+            }
+        } else {
+            scan.nextLine();
+            System.err.println("Erreur de saisie");
+        }
+    } while (!isFinish);
+    scan.close();
+    return val;
     }
 }

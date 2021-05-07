@@ -1,9 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.ingredient;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.Optional;
 
@@ -19,6 +16,11 @@ class IngredientRepositoryTest {
         this.subject = new IngredientRepository();
     }
 
+    @AfterEach
+    void finish() {
+        subject.deleteById(CAROTTE.getId());
+    }
+
     @Test
     @DisplayName("Devrait avoir un élément")
     void shouldFindByIdOk() {
@@ -28,8 +30,6 @@ class IngredientRepositoryTest {
 
         // Then
         Assertions.assertTrue(actual);
-
-        subject.deleteById(CAROTTE.getId());
     }
 
     @Test
@@ -55,8 +55,6 @@ class IngredientRepositoryTest {
         // Then
         Assertions.assertFalse(before);
         Assertions.assertTrue(actual);
-
-        subject.deleteById(CAROTTE.getId());
     }
 
     @Test
@@ -75,8 +73,6 @@ class IngredientRepositoryTest {
         Assertions.assertEquals(10, new_carotte.getQuantite(), "La quantite devrait être modifiée");
         Assertions.assertEquals(old_carotte.getLibelle(), new_carotte.getLibelle(), "Le libelle ne devrait pas changer");
         Assertions.assertEquals(old_carotte.getId(), new_carotte.getId(), "L'id ne devrait pas changer");
-
-        subject.deleteById(CAROTTE.getId());
     }
 
     @Test
@@ -95,8 +91,6 @@ class IngredientRepositoryTest {
         Assertions.assertEquals(old_carotte.getQuantite(), new_carotte.getQuantite(), "La quantite ne devrait pas être modifiée");
         Assertions.assertEquals("Radis", new_carotte.getLibelle(), "Le libelle devrait changer");
         Assertions.assertEquals(old_carotte.getId(), new_carotte.getId(), "L'id ne devrait pas changer");
-
-        subject.deleteById(CAROTTE.getId());
     }
 
     @Test
