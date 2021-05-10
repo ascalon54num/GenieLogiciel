@@ -90,6 +90,10 @@ public class User {
         userRepository.deleteById(id);
     }
 	
+	public void save() {
+        userRepository.save(this);
+    }
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", nom=" + nom + ", prenom=" + prenom + ", role=" + role + "]";

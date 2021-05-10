@@ -37,8 +37,8 @@ public class UserRepository {
         return usersMap;
     }
 
-    public void addUser(String login, String nom, String prenom, int role) {
-		String sql= "INSERT INTO UTILISATEUR (login, nom, prenom, idRole) VALUES ('"+login+"','"+nom+"','"+prenom+"','"+role+"');";
+    public void save(User user) {
+		String sql= "INSERT INTO UTILISATEUR (login, nom, prenom, idRole) VALUES ('"+user.getLogin()+"','"+user.getNom()+"','"+user.getPrenom()+"','"+user.getRole()+"');";
 		Connection conn = new BddController().getConnection();
 		Statement stmt = null;
 		try {
