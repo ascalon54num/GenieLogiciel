@@ -1,12 +1,15 @@
 package fr.ul.miage.GenieLogiciel.controller;
 
-import fr.ul.miage.GenieLogiciel.View.*;
+
+
 import fr.ul.miage.GenieLogiciel.model.CommandExecutor;
 import fr.ul.miage.GenieLogiciel.model.ExempleOperation;
 import fr.ul.miage.GenieLogiciel.model.OperationExempleReceiver;
 import fr.ul.miage.GenieLogiciel.model.accueil.DisplayMenuAccueil;
+import fr.ul.miage.GenieLogiciel.View.*;
 import fr.ul.miage.GenieLogiciel.model.categorie.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.table.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.plat.cmd.*;
 
 public class CommandeController {
@@ -73,6 +76,47 @@ public class CommandeController {
         executor.executeOperation(new ViderIngredient(new IngredientCmd()));
         openIngredientMenu();
     }
+    
+    //////////////////
+   //     Tables   //
+  //////////////////
+    
+    public void openTableMenu() {
+		executor.executeOperation(new DisplayMenuTable(new MenuTableView()));
+	}
+
+	public void listeTable() {
+		executor.executeOperation(new ListeTable(new TableCmd()));
+        openTableMenu();
+	}
+
+	public void ajouterTable() {
+		executor.executeOperation(new AddTable(new TableCmd()));
+        openTableMenu();
+	}
+
+	public void modifierTable() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void changerStatutTable( ) {
+		
+	}
+	
+	public void showTable( ) {
+		
+	}
+
+	public void supprimerTable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void affecterTable() {
+		executor.executeOperation(new AffecterTable(new TableCmd()));
+        openTableMenu();
+	}
 
 
     ////////////////

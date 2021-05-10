@@ -5,7 +5,7 @@ import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
 
 public class MenuAccueilView {
 
-    private static final int NB_CHOIX = 4;
+    private static final int NB_CHOIX = 5;
 
     public void show() {
         System.out.println("=============================================================");
@@ -18,11 +18,11 @@ public class MenuAccueilView {
 
     private void displayMenuMain() {
         System.out.println(
-                "┌─────────────┬────────────┬───────┬─────────┐\n" +
-                        "│ Ingrédients │ Catégories │ Plats │ Quitter │\n" +
-                        "├─────────────┼────────────┼───────┼─────────┤\n" +
-                        "│ 1           │ 2          │ 3     │ 4       │\n" +
-                        "└─────────────┴────────────┴───────┴─────────┘"
+                "┌─────────────┬────────────┬───────┬────────┬─────────┐\n" +
+                        "│ Ingrédients │ Catégories │ Plats │ Tables │ Quitter │\n" +
+                        "├─────────────┼────────────┼───────┼────────┼─────────┤\n" +
+                        "│ 1           │ 2          │   3   │   4    │    5    │\n" +
+                        "└─────────────┴────────────┴───────┴────────┴─────────┘"
         );
     }
 
@@ -38,6 +38,9 @@ public class MenuAccueilView {
                 CommandeController.getInstance().openPlatMenu();
                 break;
             case 4:
+            	CommandeController.getInstance().openTableMenu();
+            	break;
+            case 5:
                 System.exit(0);
                 break;
         }
