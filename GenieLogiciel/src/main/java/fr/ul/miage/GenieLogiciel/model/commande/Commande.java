@@ -1,6 +1,7 @@
 package fr.ul.miage.GenieLogiciel.model.commande;
 
 import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+import fr.ul.miage.GenieLogiciel.model.service.Service;
 import fr.ul.miage.GenieLogiciel.model.table.Table;
 
 import java.util.ArrayList;
@@ -13,9 +14,12 @@ public class Commande {
     private Service service;
     private List<CommandePlat> plats;
 
+    private CommandeRepository commandeRepository;
+
     public Commande() {
         this.plats = new ArrayList<>();
         this.statut = new CommandeStatut();
+        this.commandeRepository = new CommandeRepository();
     }
 
     public int getId() {
@@ -45,11 +49,11 @@ public class Commande {
         return this;
     }
 
-    public Service getCommandeService() {
+    public Service getService() {
         return service;
     }
 
-    public Commande setCommandeService(Service service) {
+    public Commande setService(Service service) {
         this.service = service;
         return this;
     }
@@ -71,6 +75,10 @@ public class Commande {
 
     public void modifierStatut(String statut) {
         this.statut.setLibelle(statut);
+    }
+
+    public void ajouter() {
+        commandeRepository.save(this);
     }
 
     @Override

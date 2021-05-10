@@ -1,4 +1,4 @@
-package fr.ul.miage.GenieLogiciel.model.commande;
+package fr.ul.miage.GenieLogiciel.model.service;
 
 import java.time.LocalDate;
 
@@ -6,6 +6,11 @@ public class Service {
     private int id;
     private String libelle;
     private LocalDate dateDebut;
+    private ServiceRepository repository;
+
+    public Service() {
+        this.repository = new ServiceRepository();
+    }
 
     public int getId() {
         return id;
@@ -32,5 +37,13 @@ public class Service {
     public Service setDateDebut(LocalDate dateDebut) {
         this.dateDebut = dateDebut;
         return this;
+    }
+
+    public void save() {
+        repository.save(this);
+    }
+
+    public void delete() {
+        repository.deleteById(id);
     }
 }
