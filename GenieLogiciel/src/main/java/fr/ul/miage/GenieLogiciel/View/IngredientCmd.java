@@ -2,6 +2,8 @@ package fr.ul.miage.GenieLogiciel.View;
 
 import fr.ul.miage.GenieLogiciel.model.ingredient.Ingredient;
 import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientRepository;
+import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+import fr.ul.miage.GenieLogiciel.utils.Outil;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
 
 import java.util.Map;
@@ -9,6 +11,11 @@ import java.util.Map;
 import static fr.ul.miage.GenieLogiciel.utils.Constantes.QUANTITE_MAX_INGREDIENT;
 
 public class IngredientCmd {
+    private final IngredientRepository ingredientRepository;
+
+    public IngredientCmd() {
+        this.ingredientRepository = new IngredientRepository();
+    }
 
     public void add() {
         System.out.println();
@@ -24,21 +31,29 @@ public class IngredientCmd {
 
     public void delete() {
         System.out.println();
-        IngredientRepository ingredientRepository = new IngredientRepository();
         Map<Integer, Ingredient> ingredients = ingredientRepository.findAll();
+        if (ingredients.isEmpty()) {
+            System.err.println("Il n'y a pas d'ingrédient d'enregistrée");
+            Outil.waitTime(500);
+            return;
+        }
         ingredients.forEach((id, ingredient) -> System.out.println(ingredient));
-        System.out.print("Id de l'ingrédient à modifier : ");
+        System.out.print("Id de l'ingrédient à supprimer : ");
         int idIngredient = ScannerWithCheck.scannerIntUtilisateur(false, -1);
-
         if (ingredients.containsKey(idIngredient)) {
             Ingredient ingredient = ingredients.get(idIngredient);
-            System.out.print("Nouveau nom (" + ingredient.getLibelle() + ") : ");
-            ingredient.setLibelle(ScannerWithCheck.scannerStringUtilisateur(50));
-            System.out.print("Nouvelle quantité (" + ingredient.getQuantite() + ") : ");
-            ingredient.setQuantite(ScannerWithCheck.scannerIntUtilisateur(true, QUANTITE_MAX_INGREDIENT));
-            ingredient.save();
-
-            System.out.println("Ingrédient modifié = " + ingredient);
+            Map<Integer, Plat> platsLiesAIngredient = ingredientRepository.findPlatsByIdIngredient(idIngredient);
+            if (platsLiesAIngredient.isEmpty()) {
+                ingredient.delete();
+                System.out.println("Ingrédient supprimé = " + ingredient);
+            } else {
+                System.err.println("Impossible de supprimer l'ingrédient = " + ingredient);
+                Outil.waitTime(500);
+                System.out.println("Les plats suivants sont utilisés par cette ingrédient :");
+                for (Plat plat : platsLiesAIngredient.values()) {
+                    System.out.println(plat);
+                }
+            }
         } else {
             System.err.println("Erreur de saisie");
         }
@@ -46,7 +61,6 @@ public class IngredientCmd {
 
     public void edit() {
         System.out.println();
-        IngredientRepository ingredientRepository = new IngredientRepository();
         Map<Integer, Ingredient> ingredients = ingredientRepository.findAll();
         ingredients.forEach((id, ingredient) -> System.out.println(ingredient));
         System.out.print("Id de l'ingrédient à modifier : ");
@@ -69,14 +83,12 @@ public class IngredientCmd {
     public void liste() {
         System.out.println();
         System.out.println("Liste des ingrédients :");
-        IngredientRepository ingredientRepository = new IngredientRepository();
         Map<Integer, Ingredient> ingredients = ingredientRepository.findAll();
         ingredients.forEach((id, ingredient) -> System.out.println(ingredient));
     }
 
     public void remplir() {
         System.out.println();
-        IngredientRepository ingredientRepository = new IngredientRepository();
         Map<Integer, Ingredient> ingredients = ingredientRepository.findAll();
         ingredients.forEach((id, ingredient) -> System.out.println(ingredient));
         System.out.print("Id de l'ingrédient à remplir : ");
@@ -95,7 +107,6 @@ public class IngredientCmd {
 
     public void vider() {
         System.out.println();
-        IngredientRepository ingredientRepository = new IngredientRepository();
         Map<Integer, Ingredient> ingredients = ingredientRepository.findAll();
         ingredients.forEach((id, ingredient) -> System.out.println(ingredient));
         System.out.print("Id de l'ingrédient à vider : ");
