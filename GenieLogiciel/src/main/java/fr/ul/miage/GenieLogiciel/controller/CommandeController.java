@@ -96,12 +96,13 @@ public class CommandeController {
 	}
 
 	public void modifierTable() {
-		// TODO Auto-generated method stub
-		
+		executor.executeOperation(new ModifyTable(new TableCmd()));
+		openTableMenu();
 	}
 	
 	public void changerStatutTable( ) {
-		
+		executor.executeOperation(new ModifyStatusTable(new TableCmd()));
+		openTableMenu();
 	}
 	
 	public void showTable( ) {
@@ -109,8 +110,8 @@ public class CommandeController {
 	}
 
 	public void supprimerTable() {
-		// TODO Auto-generated method stub
-		
+		executor.executeOperation(new DeleteTable(new TableCmd()));
+        openTableMenu();
 	}
 
 	public void affecterTable() {

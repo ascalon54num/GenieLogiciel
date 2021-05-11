@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import fr.ul.miage.GenieLogiciel.utils.Constantes;
+
 
 public class TableRepositoryTest {
 	
