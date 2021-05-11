@@ -37,16 +37,74 @@ public class UserRepository {
         return usersMap;
     }
 
-    public void save(User user) {
+    public User save(User user) {
+    	
+    	BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet generatedKeys = null;
+        boolean isCreate = user.getId() == 0;
+        try {
+            String query;
+            if (isCreate) {
+                query = "INSERT INTO UTILISATEUR (login, nom, prenom, idRole) VALUES (?, ?, ?, ?)";
+            } else {
+                query = "UPDATE UTILISATEUR SET login = ?, nom = ?, prenom = ?, idRole = ? WHERE idUtilisateur = ?";
+            }
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getNom());
+            preparedStatement.setString(3, user.getPrenom());
+            preparedStatement.setInt(4, user.getRole());
+            if (!isCreate) {
+                preparedStatement.setInt(5, user.getId());
+            }
+            preparedStatement.executeUpdate();
+
+            if (isCreate) {
+                generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    user.setId(generatedKeys.getInt(1));
+                }
+            }
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, generatedKeys);
+        }
+        return user;
+        
+        /*
 		String sql= "INSERT INTO UTILISATEUR (login, nom, prenom, idRole) VALUES ('"+user.getLogin()+"','"+user.getNom()+"','"+user.getPrenom()+"','"+user.getRole()+"');";
 		Connection conn = new BddController().getConnection();
 		Statement stmt = null;
+        boolean isCreate = plat.getId() == 0;
+
 		try {
+			String query;
+            if (isCreate) {
+            	
+            }
+            else
+            {
+            	
+            }
 			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
+			
+			int rowsAffected = 
+					  stmt.executeUpdate( sql, Statement.RETURN_GENERATED_KEYS );  
+			
+			ResultSet  generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                user.setId(generatedKeys.getInt(1));
+                
+                System.out.println("Insert avec succès : "+user.getId());
+            }
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
+		*/
 	}
 
     public void deleteById(int id) {
@@ -58,6 +116,7 @@ public class UserRepository {
             String query = "DELETE FROM UTILISATEUR WHERE idUtilisateur = "+id;
             statement = connection.createStatement();
             statement.executeUpdate(query);
+            
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
@@ -126,30 +185,33 @@ public class UserRepository {
 	}
 	
 	public User findOneById(int id) {
-        String query = "SELECT * FROM utilisateur WHERE idUtilisateur = ?";
+        String query = "SELECT * FROM utilisateur WHERE idUtilisateur = "+id;
+        
         BddController bddController = new BddController();
         Connection connection = bddController.getConnection();
-        PreparedStatement preparedStatement = null;
+        Statement stmt = null;
         ResultSet resultSet = null;
-        User user = null;
+		User user = null;
         try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                user = new User();
-                user.setLogin(resultSet.getString("login"));
-            	user.setNom(resultSet.getString("nom"));
-            	user.setPrenom(resultSet.getString("prenom"));
-            	user.setRole(resultSet.getInt("idRole"));
-                user.setId(resultSet.getInt("idUtilisateur"));
-            }
+        	stmt = connection.createStatement();
+        	resultSet = stmt.executeQuery(query);
+
+    		 while(resultSet.next()){
+    			 user = new User();
+                 user.setLogin(resultSet.getString("login"));
+             	user.setNom(resultSet.getString("nom"));
+             	user.setPrenom(resultSet.getString("prenom"));
+             	user.setRole(resultSet.getInt("idRole"));
+                 user.setId(resultSet.getInt("idUtilisateur"));
+    		 }
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(connection, stmt, resultSet);
         }
+        
+		 return user;
+		 
 
-        return user;
     }
 }

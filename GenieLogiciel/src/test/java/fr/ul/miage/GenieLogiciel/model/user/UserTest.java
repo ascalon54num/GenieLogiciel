@@ -13,12 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import fr.ul.miage.GenieLogiciel.model.plat.Plat;
+
 @ExtendWith(MockitoExtension.class)
 class UserTest {
 	
 	private User subject;
-	
-	 
 	 
 	@Mock
     private UserRepository userRepository ;
@@ -36,7 +36,7 @@ class UserTest {
     }
     
 	 @Test
-	    @DisplayName("Devrait supprimer le bon id d'utilisateur")
+	    @DisplayName("Devrait supprimer le bon utilisateur (le bon id)")
 	    void shouldDeleteOk() {
 	        // Given
 	       subject.setId(1);
@@ -51,8 +51,25 @@ class UserTest {
 	        // Then
 	        Mockito.verify(userRepository).deleteById(idUserArgumentCaptor.capture());
 	        int actual = idUserArgumentCaptor.getValue();
-
 	        Assertions.assertEquals(subject.getId(), actual);
 	    }
+	 
+	    @Test
+	    @DisplayName("Devrait retourner le même utilisateur")
+	    void shouldSaveOk() {
+	        // Given
+	        subject.setId(1); 
+	        subject.setLogin("loginTest");
+
+	        // When
+	        subject.save();
+
+	        // Then
+	        Mockito.verify(userRepository).save(userArgumentCaptor.capture());
+	        User actual = userArgumentCaptor.getValue();
+
+	        Assertions.assertEquals(subject, actual);
+	    }
+
 
 }
