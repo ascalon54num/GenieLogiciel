@@ -1,6 +1,7 @@
 package fr.ul.miage.GenieLogiciel.model.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Service {
     private int id;
@@ -45,5 +46,9 @@ public class Service {
 
     public void delete() {
         repository.deleteById(id);
+    }
+
+    public String toString() {
+        return id + " {nom = " + libelle + ", date = " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "}";
     }
 }

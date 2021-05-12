@@ -1,14 +1,42 @@
 package fr.ul.miage.GenieLogiciel.model.service;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
+import fr.ul.miage.GenieLogiciel.model.commande.Commande;
+import fr.ul.miage.GenieLogiciel.model.commande.CommandeRepository;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ServiceRepository {
     private final BddController bddController;
 
     public ServiceRepository() {
         this.bddController = new BddController();
+    }
+
+    public Map<Integer, Service> findAll() {
+        String query = "SELECT * FROM service";
+        Connection connection = bddController.getConnection();
+        Statement statement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Service> servicesMap = new TreeMap<>();
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                Service service = generateService(resultSet);
+                servicesMap.put(service.getId(), service);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, statement, resultSet);
+        }
+
+        return servicesMap;
     }
 
     public Service findOneById(int id) {
@@ -80,6 +108,30 @@ public class ServiceRepository {
         } finally {
             BddController.closeAll(connection, preparedStatement, null);
         }
+    }
+
+    public Map<Integer, Commande> getCommandesByIdService(int id) {
+        String query = "SELECT * FROM commande WHERE idService = ?";
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Commande> commandes = new HashMap<>();
+        Commande commande;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                commande = CommandeRepository.generateCommande(resultSet);
+                commandes.put(commande.getId(), commande);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(connection, preparedStatement, resultSet);
+        }
+
+        return commandes;
     }
 
     private static Service generateService(ResultSet resultSet) throws SQLException {
