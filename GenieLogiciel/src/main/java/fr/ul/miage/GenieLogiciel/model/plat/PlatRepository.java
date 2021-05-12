@@ -2,11 +2,14 @@ package fr.ul.miage.GenieLogiciel.model.plat;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
 import fr.ul.miage.GenieLogiciel.model.categorie.CategorieRepository;
+import fr.ul.miage.GenieLogiciel.model.commande.Commande;
+import fr.ul.miage.GenieLogiciel.model.commande.CommandeRepository;
 import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlatRepository;
 
 import java.sql.*;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class PlatRepository {
     public Map<Integer, Plat> findAll() {
@@ -26,7 +29,7 @@ public class PlatRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return platMap;
@@ -49,10 +52,35 @@ public class PlatRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return plat;
+    }
+
+    public Map<Integer, Commande> findCommandesByIdPlat(int idPlat) {
+        String query = "SELECT * FROM commande_plat WHERE idPlat = ?";
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Commande> commandes = new HashMap<>();
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idPlat);
+            resultSet = preparedStatement.executeQuery();
+            CommandeRepository commandeRepository = new CommandeRepository();
+            if (resultSet.next()) {
+                Commande commande = commandeRepository.findOneById(resultSet.getInt("idCommande"));
+                commandes.put(commande.getId(), commande);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(preparedStatement, resultSet);
+        }
+
+        return commandes;
     }
 
     public Plat save(Plat plat) {
@@ -89,7 +117,7 @@ public class PlatRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, generatedKeys);
+            BddController.closeAll(preparedStatement, generatedKeys);
         }
         return plat;
     }
@@ -111,7 +139,7 @@ public class PlatRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
     }
 

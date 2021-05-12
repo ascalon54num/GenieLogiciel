@@ -5,6 +5,7 @@ import fr.ul.miage.GenieLogiciel.model.service.ServiceRepository;
 import fr.ul.miage.GenieLogiciel.model.table.TableRepository;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -32,10 +33,33 @@ public class CommandeRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return commandeMap;
+    }
+
+    public Map<Integer, Commande> getCommandesWithStatus(int idStatus) {
+        String query = "SELECT * FROM commande WHERE idStatutCommande = ?";
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Commande> commandes = new HashMap<>();
+        Commande commande;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idStatus);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                commande = generateCommande(resultSet);
+                commandes.put(commande.getId(), commande);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(preparedStatement, resultSet);
+        }
+        return commandes;
     }
 
     public Commande findOneById(int id) {
@@ -54,7 +78,7 @@ public class CommandeRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
         return commande;
     }
@@ -69,7 +93,7 @@ public class CommandeRepository {
             if (isCreate) {
                 query = "INSERT INTO commande (idTable, idStatutCommande, idService) VALUES (?, ?, ?)";
             } else {
-                query = "UPDATE categorie SET idTable = ?, idStatutCommande = ?, idService = ? WHERE idCommande = ?";
+                query = "UPDATE commande SET idTable = ?, idStatutCommande = ?, idService = ? WHERE idCommande = ?";
             }
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, commande.getTable().getId());
@@ -90,12 +114,12 @@ public class CommandeRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, generatedKeys);
+            BddController.closeAll(preparedStatement, generatedKeys);
         }
         return commande;
     }
 
-    private static Commande generateCommande(ResultSet resultSet) throws SQLException {
+    public static Commande generateCommande(ResultSet resultSet) throws SQLException {
         return new Commande()
                 .setId(resultSet.getInt("idCommande"))
                 .setStatut(new CommandeStatutRepository().findOneById(resultSet.getInt("idStatutCommande")))

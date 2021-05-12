@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.accueil;
 
-import fr.ul.miage.GenieLogiciel.View.MenuAccueilView;
+import fr.ul.miage.GenieLogiciel.View.menu.MenuAccueilView;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class DisplayMenuAccueil implements Command {

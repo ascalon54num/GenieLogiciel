@@ -33,7 +33,7 @@ public class ServiceRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return servicesMap;
@@ -55,7 +55,7 @@ public class ServiceRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return service;
@@ -90,7 +90,7 @@ public class ServiceRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
         return service;
     }
@@ -106,7 +106,7 @@ public class ServiceRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
     }
 
@@ -128,7 +128,7 @@ public class ServiceRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return commandes;

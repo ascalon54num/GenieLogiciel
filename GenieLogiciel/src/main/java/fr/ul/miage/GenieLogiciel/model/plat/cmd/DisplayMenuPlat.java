@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.plat.cmd;
 
-import fr.ul.miage.GenieLogiciel.View.MenuPlatView;
+import fr.ul.miage.GenieLogiciel.View.menu.MenuPlatView;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class DisplayMenuPlat implements Command {

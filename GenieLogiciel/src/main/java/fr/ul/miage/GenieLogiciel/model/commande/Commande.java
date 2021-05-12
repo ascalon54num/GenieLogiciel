@@ -14,7 +14,7 @@ public class Commande {
     private Service service;
     private List<CommandePlat> plats;
 
-    private CommandeRepository commandeRepository;
+    private final CommandeRepository commandeRepository;
 
     public Commande() {
         this.plats = new ArrayList<>();
@@ -91,12 +91,13 @@ public class Commande {
 
     @Override
     public String toString() {
-        return "Commande{" +
-                "idCommande=" + id +
-                ", table=" + table +
-                ", statut=" + statut +
-                ", commandeService=" + service +
-                ", plats=" + plats +
-                '}';
+        StringBuilder strPlats = new StringBuilder("(");
+        for (CommandePlat commandePlat : plats) {
+            strPlats.append(commandePlat.getPlat().getLibelle()).append("(x").append(commandePlat.getQuantite()).append(")");
+            strPlats.append(", ");
+        }
+        strPlats.delete(strPlats.length() - 2, strPlats.length());
+        strPlats.append(")");
+        return id + " {table = " + table.getId() + "(" + table.getNbCouvert() + "🍽)" + ", statut = " + statut + ", service = " + service.getLibelle() + ", plats = " + strPlats + "}";
     }
 }

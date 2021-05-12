@@ -31,7 +31,7 @@ public class IngredientRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return ingredientsMap;
@@ -57,7 +57,7 @@ public class IngredientRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return ingredient;
@@ -81,7 +81,7 @@ public class IngredientRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return platMap;
@@ -117,7 +117,7 @@ public class IngredientRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
         return ingredient;
     }
@@ -134,7 +134,7 @@ public class IngredientRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
     }
 }

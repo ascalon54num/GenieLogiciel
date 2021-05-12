@@ -29,14 +29,14 @@ public class CommandeStatutRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return commandeStatutMap;
     }
 
     public CommandeStatut findOneById(int id) {
-        String query = "SELECT * FROM commande WHERE idStatutCommande = ?";
+        String query = "SELECT * FROM statutcommande WHERE idStatutCommande = ?";
         BddController bddController = new BddController();
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
@@ -52,7 +52,7 @@ public class CommandeStatutRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return statut;
