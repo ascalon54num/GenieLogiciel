@@ -106,7 +106,8 @@ public class CommandeController {
 	}
 	
 	public void showTable( ) {
-		
+		executor.executeOperation(new ShowDetailTables(new TableCmd()));
+		openTableMenu();
 	}
 
 	public void supprimerTable() {
