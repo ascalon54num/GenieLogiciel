@@ -31,7 +31,6 @@ public class PlatRepository {
         } finally {
             BddController.closeAll(statement, resultSet);
         }
-
         return platMap;
     }
 

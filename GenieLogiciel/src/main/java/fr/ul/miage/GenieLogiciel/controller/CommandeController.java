@@ -103,21 +103,23 @@ public class CommandeController {
 	}
 
 	public void modifierTable() {
-		// TODO Auto-generated method stub
-		
+		executor.executeOperation(new ModifyTable(new TableCmd()));
+		openTableMenu();
 	}
 	
 	public void changerStatutTable( ) {
-		
+		executor.executeOperation(new ModifyStatusTable(new TableCmd()));
+		openTableMenu();
 	}
 	
 	public void showTable( ) {
-		
+		executor.executeOperation(new ShowDetailTables(new TableCmd()));
+		openTableMenu();
 	}
 
 	public void supprimerTable() {
-		// TODO Auto-generated method stub
-		
+		executor.executeOperation(new DeleteTable(new TableCmd()));
+        openTableMenu();
 	}
 
 	public void affecterTable() {
