@@ -1,13 +1,13 @@
-package fr.ul.miage.GenieLogiciel.View;
+package fr.ul.miage.GenieLogiciel.View.menu;
 
 import fr.ul.miage.GenieLogiciel.controller.CommandeController;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
 
-public class MenuPlatView {
+public class MenuCategorieView {
 
     public void show() {
         System.out.println("=============================================================");
-        System.out.println("MENU PLATS :");
+        System.out.println("MENU CATEGORIES :");
         displayMenuMainIngredient();
         System.out.print("Faites votre choix (1-5) : ");
         int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 5);
@@ -27,16 +27,16 @@ public class MenuPlatView {
     private void getPage(int idMenu) {
         switch (idMenu) {
             case 1:
-                CommandeController.getInstance().listePlat();
+                CommandeController.getInstance().listeCategorie();
                 break;
             case 2:
-                CommandeController.getInstance().ajouterPlat();
+                CommandeController.getInstance().ajouterCategorie();
                 break;
             case 3:
-                CommandeController.getInstance().modifierPlat();
+                CommandeController.getInstance().modifierCategorie();
                 break;
             case 4:
-                CommandeController.getInstance().supprimerPlat();
+                CommandeController.getInstance().supprimerCategorie();
                 break;
             case 5:
                 CommandeController.getInstance().openAccueilMenu();

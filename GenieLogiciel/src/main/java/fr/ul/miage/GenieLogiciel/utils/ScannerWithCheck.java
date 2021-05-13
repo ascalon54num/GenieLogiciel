@@ -1,7 +1,9 @@
 package fr.ul.miage.GenieLogiciel.utils;
 
-import java.util.ArrayList;
 import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ScannerWithCheck {
@@ -31,8 +33,8 @@ public class ScannerWithCheck {
         boolean isFinish = false;
         String val = "";
         do {
-            if (scan.hasNext()) {
-                val = scan.next();
+            if (scan.hasNextLine()) {
+                val = scan.nextLine();
                 if (val.length() > maxLength) {
                     scan.nextLine();
                     System.err.println("Trop long !");
@@ -46,7 +48,7 @@ public class ScannerWithCheck {
         } while (!isFinish);
         return val;
     }
-    
+
     public static String scannerStringPreciseValue(int maxLength, ArrayList<String> autorizedValues) {
         Scanner scan = new Scanner(System.in);
         boolean isFinish = false;
@@ -58,7 +60,7 @@ public class ScannerWithCheck {
                     scan.nextLine();
                     System.err.println("Trop long !");
                 } else if (!autorizedValues.contains(val)) {
-                	scan.nextLine();
+                    scan.nextLine();
                     System.err.println("Valeur attendues : y ou n !");
                 } else {
                     isFinish = true;
@@ -67,28 +69,45 @@ public class ScannerWithCheck {
                 scan.nextLine();
                 System.err.println("Erreur de saisie");
             }
-        }while (!isFinish);
+        } while (!isFinish);
         return val;
     }
 
-public static double scannerDoubleUtilisateur() {
-    Scanner scan = new Scanner(System.in);
-    boolean isFinish = false;
-    double val = 0.0;
-    do {
-        if (scan.hasNextDouble()) {
-            val = scan.nextDouble();
-            if (val < 0.0 || val == 0.0 || val >= 1000.0 || BigDecimal.valueOf(val).scale() > 2) {
+    public static double scannerDoubleUtilisateur() {
+        Scanner scan = new Scanner(System.in);
+        boolean isFinish = false;
+        double val = 0.0;
+        do {
+            if (scan.hasNextDouble()) {
+                val = scan.nextDouble();
+                if (val < 0.0 || val == 0.0 || val >= 1000.0 || BigDecimal.valueOf(val).scale() > 2) {
+                    scan.nextLine();
+                    System.err.println("Erreur de saisie");
+                } else {
+                    isFinish = true;
+                }
+            } else {
                 scan.nextLine();
                 System.err.println("Erreur de saisie");
-            } else {
-                isFinish = true;
             }
-        } else {
-            scan.nextLine();
-            System.err.println("Erreur de saisie");
+        } while (!isFinish);
+        return val;
+    }
+
+    public static LocalDate scannerDateUtilisateur() {
+        System.out.println();
+        System.out.print("Jour : ");
+        int day = scannerIntUtilisateur(false, 31);
+        System.out.print("Mois : ");
+        int month = scannerIntUtilisateur(false, 12);
+        System.out.print("Année : ");
+        int year = scannerIntUtilisateur(false, LocalDate.now().getYear() + 10);
+
+        try {
+            return LocalDate.of(year, month, day);
+        } catch (DateTimeException e) {
+            System.err.println("Erreur de format de date");
+            return scannerDateUtilisateur();
         }
-    } while (!isFinish);
-    return val;
     }
 }

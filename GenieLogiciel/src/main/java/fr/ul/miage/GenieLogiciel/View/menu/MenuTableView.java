@@ -1,4 +1,4 @@
-package fr.ul.miage.GenieLogiciel.View;
+package fr.ul.miage.GenieLogiciel.View.menu;
 
 import fr.ul.miage.GenieLogiciel.controller.CommandeController;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;

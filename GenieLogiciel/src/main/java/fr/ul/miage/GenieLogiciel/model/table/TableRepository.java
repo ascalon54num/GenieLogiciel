@@ -30,7 +30,7 @@ public class TableRepository {
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			BddController.closeAll(connection, statement, resultSet);
+			BddController.closeAll(statement, resultSet);
 		}
 		return tableMap;
 	}
@@ -53,7 +53,7 @@ public class TableRepository {
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			BddController.closeAll(connection, preparedStatement, resultSet);
+			BddController.closeAll(preparedStatement, resultSet);
 		}
 
 		return table;
@@ -89,7 +89,7 @@ public class TableRepository {
 	        } catch (SQLException exception) {
 	            exception.printStackTrace();
 	        } finally {
-	            BddController.closeAll(connection, preparedStatement, null);
+	            BddController.closeAll(preparedStatement, null);
 	        }
 	        return table;
 	    }
@@ -106,7 +106,7 @@ public class TableRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
     }
 }

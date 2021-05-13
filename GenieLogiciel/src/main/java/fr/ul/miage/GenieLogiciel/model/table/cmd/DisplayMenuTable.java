@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.table.cmd;
 
-import fr.ul.miage.GenieLogiciel.View.MenuTableView;
+import fr.ul.miage.GenieLogiciel.View.menu.MenuTableView;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class DisplayMenuTable implements Command {

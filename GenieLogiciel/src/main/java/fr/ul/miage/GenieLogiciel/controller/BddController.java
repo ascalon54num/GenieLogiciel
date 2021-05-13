@@ -14,6 +14,7 @@ public class BddController {
     private String url;
     private String user;
     private String password;
+    private Connection connection;
 
     public BddController() {
         this.url = ConfigReader.getProp("urlBdd");
@@ -27,20 +28,19 @@ public class BddController {
     }
 
     public Connection getConnection() {
-        Connection connexion = null;
-        try {
-            connexion = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            LOG.severe("Erreur connection à la base de données impossible\r\n" + e.getMessage());
-        }
-        return connexion;
+       if(connection == null) {
+           try {
+               connection = DriverManager.getConnection(url, user, password);
+           } catch (SQLException e) {
+               LOG.severe("Erreur connection à la base de données impossible\r\n" + e.getMessage());
+           }
+       }
+
+        return connection;
     }
 
-    public static void closeAll(Connection connection, Statement statement, ResultSet resultSet) {
+    public static void closeAll(Statement statement, ResultSet resultSet) {
         try {
-            if (connection != null) {
-                connection.close();
-            }
             if (statement != null) {
                 statement.close();
             }

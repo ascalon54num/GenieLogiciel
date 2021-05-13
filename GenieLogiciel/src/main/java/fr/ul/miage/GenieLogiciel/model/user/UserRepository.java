@@ -31,7 +31,7 @@ public class UserRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return usersMap;
@@ -61,7 +61,7 @@ public class UserRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, null);
+            BddController.closeAll(statement, null);
         }
     }
     
@@ -77,7 +77,7 @@ public class UserRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, null);
+            BddController.closeAll(statement, null);
         }
     }
     
@@ -120,7 +120,7 @@ public class UserRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(conn, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 		return usersMap;
 	}
@@ -147,7 +147,7 @@ public class UserRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return user;

@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.ingredient.cmd;
 
-import fr.ul.miage.GenieLogiciel.View.MenuIngredientView;
+import fr.ul.miage.GenieLogiciel.View.menu.MenuIngredientView;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class DisplayMenuIngredient implements Command {
