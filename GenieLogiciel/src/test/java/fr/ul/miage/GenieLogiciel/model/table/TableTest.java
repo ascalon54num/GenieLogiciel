@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import fr.ul.miage.GenieLogiciel.utils.Constantes;
+
 
 @ExtendWith(MockitoExtension.class)
 public class TableTest {
@@ -46,4 +48,20 @@ public class TableTest {
 		Assertions.assertEquals(subject.getNbCouvert(), actual.getNbCouvert());
 		Assertions.assertEquals(subject.getStatut(), actual.getStatut());
 	}
+	
+	 @Test
+	   @DisplayName("Devrait avoir le statut modifié")
+	   void shouldModifyStatus() {
+		 	// Given
+			subject.setId(1).setStatut(Constantes.STATUS_TABLE[0]).setNbCouvert(5);
+
+			// When
+			subject.setStatut(Constantes.STATUS_TABLE[1]);
+			subject.save();
+			Mockito.verify(tableRepository).save(tableArgumentCaptor.capture());
+			Table actual = tableArgumentCaptor.getValue();
+
+			// Then
+			Assertions.assertEquals(Constantes.STATUS_TABLE[1], actual.getStatut());
+	   }
 }

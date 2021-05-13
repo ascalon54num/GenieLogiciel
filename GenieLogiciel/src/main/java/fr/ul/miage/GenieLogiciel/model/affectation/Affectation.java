@@ -63,4 +63,8 @@ public class Affectation {
 	    public String toString() {
 	        return id + " {Serveur = " + serveur.getPrenom() +" "+serveur.getNom() + ", Table = " + table.getId() + "}";
 	    }
+
+	public String getServeur() {
+		return serveur.getPrenom()+" "+serveur.getNom();
+	}
 }

@@ -51,4 +51,9 @@ public class Table {
     public String toString() {
         return "Table "+id + ": {statut = " + statut + ", nombre de couverts = " + nbCouvert + "}";
     }
+
+	public void delete() {
+		tableRepository.deleteById(this.id);
+		
+	}
 }
