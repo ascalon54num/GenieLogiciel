@@ -28,7 +28,9 @@ public class TableCmd {
         System.out.println("Liste des tables :");
         TableRepository tableRepository = new TableRepository();
         Map<Integer, Table> tables = tableRepository.findAll();
-        tables.forEach((id, table) -> System.out.println(table));
+        tables.forEach((id, table) -> {
+        	System.out.println(table);
+        });
         return tables;
 	}
 	
@@ -152,6 +154,21 @@ public class TableCmd {
             table.save();
         } else {
             System.err.println("Erreur de saisie");
+        }
+	}
+
+	public void showDetailTables() {
+		Map<Integer, Table> tables = liste();
+        System.out.print("Id de la table à visualiser : ");
+        int idTable = ScannerWithCheck.scannerIntUtilisateur(false, -1);
+
+        if (tables.containsKey(idTable)) {
+            Table table = tables.get(idTable);
+            System.out.println();
+            System.out.println(table);
+          	 Affectation affectation = new AffectationRepository().findOneByTable(table.getId());
+          	 System.out.println("Serveur affecté:"+ (affectation != null ? affectation.getServeur() : "aucun"));
+          	 System.out.println("-------------------------------------------------------------");
         }
 	}
 }
