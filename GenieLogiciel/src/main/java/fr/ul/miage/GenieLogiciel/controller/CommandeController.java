@@ -77,6 +77,37 @@ public class CommandeController {
         openIngredientMenu();
     }
     
+    
+/////////////////
+// UTILISATEURS //
+/////////////////
+    
+    public void openUserMenu() {
+        executor.executeOperation(new DisplayMenuIngredient(new MenuIngredientView()));
+    }
+
+    public void listeUser() {
+        executor.executeOperation(new ListeIngredient(new IngredientCmd()));
+        openIngredientMenu();
+    }
+
+    public void ajouterUser() {
+        executor.executeOperation(new AddIngredient(new IngredientCmd()));
+        openIngredientMenu();
+    }
+
+    public void modifierUser() {
+        executor.executeOperation(new EditIngredient(new IngredientCmd()));
+        openIngredientMenu();
+    }
+
+    public void supprimerUser() {
+        executor.executeOperation(new DeleteIngredient(new IngredientCmd()));
+        openIngredientMenu();
+    }
+
+    
+    
     //////////////////
    //     Tables   //
   //////////////////

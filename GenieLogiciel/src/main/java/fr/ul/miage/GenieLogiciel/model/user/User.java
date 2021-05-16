@@ -73,6 +73,7 @@ public class User {
         userRepository.deleteById(id);
     }
 	
+	//ajout ou MAJ d'un utilisateur
 	public void save() {
         userRepository.save(this);
     }

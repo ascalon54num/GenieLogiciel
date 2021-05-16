@@ -81,9 +81,21 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Devrait ne plus être présent dans la base")
     void shouldDelete() {
+    	
+    	 //User testUser =     new User().setLogin("testLogin").setNom("testNom").setPrenom("testPrenom").setRole(1);
+    	 //UserRepository subject  = new UserRepository();
+
+         
         // Given
         subject.save(testUser);
-        boolean before = Optional.ofNullable(subject.findOneById(testUser.getId())).isPresent();
+        boolean before = false; 
+        if (subject.findOneById(testUser.getId())!=null)
+        {
+        	before =true; 
+        }
+        		
+        		
+        	//	Optional.ofNullable().isPresent();
 
         // When
         subject.deleteById(testUser.getId());

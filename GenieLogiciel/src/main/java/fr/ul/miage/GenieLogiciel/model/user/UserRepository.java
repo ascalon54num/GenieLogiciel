@@ -74,37 +74,7 @@ public class UserRepository {
             BddController.closeAll(connection, preparedStatement, generatedKeys);
         }
         return user;
-        
-        /*
-		String sql= "INSERT INTO UTILISATEUR (login, nom, prenom, idRole) VALUES ('"+user.getLogin()+"','"+user.getNom()+"','"+user.getPrenom()+"','"+user.getRole()+"');";
-		Connection conn = new BddController().getConnection();
-		Statement stmt = null;
-        boolean isCreate = plat.getId() == 0;
 
-		try {
-			String query;
-            if (isCreate) {
-            	
-            }
-            else
-            {
-            	
-            }
-			stmt = conn.createStatement();
-			
-			int rowsAffected = 
-					  stmt.executeUpdate( sql, Statement.RETURN_GENERATED_KEYS );  
-			
-			ResultSet  generatedKeys = stmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                user.setId(generatedKeys.getInt(1));
-                
-                System.out.println("Insert avec succès : "+user.getId());
-            }
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		}
-		*/
 	}
 
     public void deleteById(int id) {
