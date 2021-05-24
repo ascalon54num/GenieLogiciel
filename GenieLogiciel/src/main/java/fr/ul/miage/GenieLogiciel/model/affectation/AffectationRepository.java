@@ -32,7 +32,7 @@ public class AffectationRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, statement, resultSet);
+            BddController.closeAll(statement, resultSet);
         }
 
         return affectationsMap;
@@ -68,7 +68,7 @@ public class AffectationRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
         return affectation;
     }
@@ -85,7 +85,7 @@ public class AffectationRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
     }
 
@@ -109,7 +109,7 @@ public class AffectationRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return affectation;
@@ -135,7 +135,7 @@ public class AffectationRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, resultSet);
+            BddController.closeAll(preparedStatement, resultSet);
         }
 
         return affectation;

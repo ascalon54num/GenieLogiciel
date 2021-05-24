@@ -2,13 +2,16 @@ package fr.ul.miage.GenieLogiciel.controller;
 
 
 
+import fr.ul.miage.GenieLogiciel.View.menu.*;
 import fr.ul.miage.GenieLogiciel.model.CommandExecutor;
 import fr.ul.miage.GenieLogiciel.model.ExempleOperation;
 import fr.ul.miage.GenieLogiciel.model.OperationExempleReceiver;
 import fr.ul.miage.GenieLogiciel.model.accueil.DisplayMenuAccueil;
 import fr.ul.miage.GenieLogiciel.View.*;
 import fr.ul.miage.GenieLogiciel.model.categorie.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.commande.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.service.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.table.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.user.cmd.AddUser;
 import fr.ul.miage.GenieLogiciel.model.user.cmd.DeleteUser;
@@ -24,12 +27,16 @@ public class CommandeController {
     private static final CommandeController instance = new CommandeController();
 
     private final CategorieCmd categorieCmd;
+    private final ServiceCmd serviceCmd;
+    private final CommandeCmd commandeCmd;
     private final PlatCmd platCmd;
 
     private CommandeController() {
         executor = new CommandExecutor();
         categorieCmd = new CategorieCmd();
         platCmd = new PlatCmd();
+        serviceCmd = new ServiceCmd();
+        commandeCmd = new CommandeCmd();
     }
 
     public static CommandeController getInstance() {
@@ -141,6 +148,11 @@ public class CommandeController {
 		openTableMenu();
 	}
 	
+	public void changerAvancementRepasTable( ) {
+		executor.executeOperation(new ModifyAdvancementMealTable(new TableCmd()));
+		openTableMenu();
+	}
+	
 	public void showTable( ) {
 		executor.executeOperation(new ShowDetailTables(new TableCmd()));
 		openTableMenu();
@@ -209,5 +221,61 @@ public class CommandeController {
     public void supprimerPlat() {
         executor.executeOperation(new DeletePlat(platCmd));
         openPlatMenu();
+    }
+
+
+    /////////////
+    // SERVICE //
+    /////////////
+    public void openServiceMenu() {
+        executor.executeOperation(new DisplayMenuService(new MenuServiceView()));
+    }
+
+    public void listeService() {
+        executor.executeOperation(new ListeService(serviceCmd));
+        openServiceMenu();
+    }
+
+    public void ajouterService() {
+        executor.executeOperation(new AddService(serviceCmd));
+        openServiceMenu();
+    }
+
+    public void modifierService() {
+        executor.executeOperation(new EditService(serviceCmd));
+        openServiceMenu();
+    }
+
+    public void supprimerService() {
+        executor.executeOperation(new DeleteService(serviceCmd));
+        openServiceMenu();
+    }
+
+
+    //////////////
+    // COMMANDE //
+    //////////////
+    public void openCommandeMenu() {
+        executor.executeOperation(new DisplayMenuCommande(new MenuCommandeView()));
+    }
+
+    public void listeCommande() {
+        executor.executeOperation(new ListeCommande(commandeCmd));
+        openCommandeMenu();
+    }
+
+    public void ajouterCommande() {
+        executor.executeOperation(new AddCommande(commandeCmd));
+        openCommandeMenu();
+    }
+
+    public void modifierCommande() {
+        executor.executeOperation(new EditCommande(commandeCmd));
+        openCommandeMenu();
+    }
+
+    public void visualiserCommandesEntrante() {
+        executor.executeOperation(new VisualiserCommande(commandeCmd));
+        openCommandeMenu();
     }
 }

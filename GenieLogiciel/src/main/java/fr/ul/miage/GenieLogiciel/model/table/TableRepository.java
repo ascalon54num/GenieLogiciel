@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.ul.miage.GenieLogiciel.controller.BddController;
+import fr.ul.miage.GenieLogiciel.utils.Constantes;
 
 public class TableRepository {
 
@@ -24,13 +25,13 @@ public class TableRepository {
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
 				Table table = new Table().setStatut(resultSet.getString("statut"))
-						.setNbCouvert(resultSet.getInt("nbCouvert")).setId(resultSet.getInt("idTable"));
+						.setNbCouvert(resultSet.getInt("nbCouvert")).setId(resultSet.getInt("idTable")).setAdvancementMeal(resultSet.getString("avancementRepas"));
 				tableMap.put(table.getId(), table);
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			BddController.closeAll(connection, statement, resultSet);
+			BddController.closeAll(statement, resultSet);
 		}
 		return tableMap;
 	}
@@ -48,12 +49,12 @@ public class TableRepository {
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				table = new Table().setStatut(resultSet.getString("statut")).setNbCouvert(resultSet.getInt("nbCouvert"))
-						.setId(resultSet.getInt("idTable"));
+						.setId(resultSet.getInt("idTable")).setAdvancementMeal(resultSet.getString("avancementRepas"));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			BddController.closeAll(connection, preparedStatement, resultSet);
+			BddController.closeAll(preparedStatement, resultSet);
 		}
 
 		return table;
@@ -67,15 +68,16 @@ public class TableRepository {
 	        try {
 	            String query;
 	            if (isCreate) {
-	                query = "INSERT INTO board (statut, nbCouvert) VALUES (?, ?)";
+	                query = "INSERT INTO board (statut, avancementRepas ,nbCouvert) VALUES (?,?,?)";
 	            } else {
-	                query = "UPDATE board SET statut = ?, nbCouvert = ? WHERE idTable = ?";
+	                query = "UPDATE board SET statut = ?, avancementRepas = ? ,nbCouvert = ? WHERE idTable = ?";
 	            }
 	            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 	            preparedStatement.setString(1, table.getStatut());
-	            preparedStatement.setInt(2, table.getNbCouvert());
+	            preparedStatement.setString(2, table.getAdvancementMeal());
+	            preparedStatement.setInt(3, table.getNbCouvert());
 	            if (!isCreate) {
-	                preparedStatement.setInt(3, table.getId());
+	                preparedStatement.setInt(4, table.getId());
 	            }
 	            preparedStatement.executeUpdate();
 
@@ -89,7 +91,7 @@ public class TableRepository {
 	        } catch (SQLException exception) {
 	            exception.printStackTrace();
 	        } finally {
-	            BddController.closeAll(connection, preparedStatement, null);
+	            BddController.closeAll(preparedStatement, null);
 	        }
 	        return table;
 	    }
@@ -106,7 +108,31 @@ public class TableRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
-            BddController.closeAll(connection, preparedStatement, null);
+            BddController.closeAll(preparedStatement, null);
         }
     }
+
+	public Map<Integer, Table> findAllOccupee() {
+		String query = "SELECT * FROM board WHERE statut = ?";
+		BddController bddController = new BddController();
+		Connection connection = bddController.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Map<Integer, Table> tableMap = new HashMap<>();
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, Constantes.STATUS_TABLE[1]);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Table table = new Table().setStatut(resultSet.getString("statut"))
+						.setNbCouvert(resultSet.getInt("nbCouvert")).setId(resultSet.getInt("idTable")).setAdvancementMeal(resultSet.getString("avancementRepas"));
+				tableMap.put(table.getId(), table);
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			BddController.closeAll(preparedStatement, resultSet);
+		}
+		return tableMap;
+	}
 }

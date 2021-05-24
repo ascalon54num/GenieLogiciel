@@ -2,6 +2,7 @@ package fr.ul.miage.GenieLogiciel.View;
 
 import fr.ul.miage.GenieLogiciel.model.categorie.Categorie;
 import fr.ul.miage.GenieLogiciel.model.categorie.CategorieRepository;
+import fr.ul.miage.GenieLogiciel.model.commande.Commande;
 import fr.ul.miage.GenieLogiciel.model.ingredient.Ingredient;
 import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlat;
 import fr.ul.miage.GenieLogiciel.model.ingredient.IngredientPlatRepository;
@@ -125,7 +126,7 @@ public class PlatCmd {
 
             ingredientPlats.forEach(ingredientPlat -> ingredientPlat.setPlat(newPlat).save());
 
-            System.out.println("Plat ajouté = " + newPlat);
+            System.out.println("Plat ajouté/modifié = " + newPlat);
         } else {
             System.err.println("Erreur de saisie");
             Outil.waitTime(500);
@@ -147,8 +148,18 @@ public class PlatCmd {
 
         if (plats.containsKey(idPlat)) {
             Plat plat = plats.get(idPlat);
-            plat.delete();
-            System.out.println("Plat supprimé = " + plat);
+            Map<Integer, Commande> commandeLieeAPlat = platRepository.findCommandesByIdPlat(idPlat);
+            if (commandeLieeAPlat.isEmpty()) {
+                plat.delete();
+                System.out.println("Plat supprimé = " + plat);
+            } else {
+                System.err.println("Impossible de supprimer le plat = " + plat);
+                Outil.waitTime(500);
+                System.out.println("Les commandes suivantes sont liées au plat :");
+                for (Commande commande : commandeLieeAPlat.values()) {
+                    System.out.println(commande);
+                }
+            }
         } else {
             System.err.println("Erreur de saisie");
         }

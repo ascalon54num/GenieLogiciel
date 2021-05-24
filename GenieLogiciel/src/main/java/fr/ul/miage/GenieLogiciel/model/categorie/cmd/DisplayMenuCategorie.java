@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.categorie.cmd;
 
-import fr.ul.miage.GenieLogiciel.View.MenuCategorieView;
+import fr.ul.miage.GenieLogiciel.View.menu.MenuCategorieView;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class DisplayMenuCategorie implements Command {
