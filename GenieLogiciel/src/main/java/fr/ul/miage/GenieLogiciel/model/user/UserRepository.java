@@ -24,7 +24,7 @@ public class UserRepository {
             	user.setLogin(resultSet.getString("login"));
             	user.setNom(resultSet.getString("nom"));
             	user.setPrenom(resultSet.getString("prenom"));
-            	user.setRole(resultSet.getInt("role"));
+            	user.setRole(resultSet.getInt("idRole"));
                 user.setId(resultSet.getInt("idUtilisateur"));
                 usersMap.put(user.getId(), user);
             }

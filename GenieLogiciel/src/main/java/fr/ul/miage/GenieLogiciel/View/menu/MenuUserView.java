@@ -1,4 +1,4 @@
-package fr.ul.miage.GenieLogiciel.View;
+package fr.ul.miage.GenieLogiciel.View.menu;
 
 import fr.ul.miage.GenieLogiciel.controller.CommandeController;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
@@ -16,11 +16,11 @@ public class MenuUserView {
 
     private void displayMenuMainIngredient() {
         System.out.println(
-                "┌───────┬─────────┬──────────┬───────────┬─────────┬───────┐\n" +
-                        "│ Liste │ Ajouter │ Modifier │ Supprimer │ Retour │ \n" +
-                        "├───────┼─────────┼──────────┼───────────┼─────────┤\n" +
-                        "│   1   │    2    │    3     │     4     │    5    │\n" +
-                        "└───────┴─────────┴──────────┴───────────┴─────────┘"
+                "┌───────┬─────────┬──────────┬───────────┬─────────┐\n" +
+                "│ Liste │ Ajouter │ Modifier │ Supprimer │ Retour  │\n" +
+                "├───────┼─────────┼──────────┼───────────┼─────────┤\n" +
+                "│   1   │    2    │    3     │     4     │    5    │\n" +
+                "└───────┴─────────┴──────────┴───────────┴─────────┘"
         );
     }
 

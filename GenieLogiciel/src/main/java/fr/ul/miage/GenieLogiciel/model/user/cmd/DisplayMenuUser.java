@@ -1,6 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.user.cmd;
 
-import fr.ul.miage.GenieLogiciel.View.MenuUserView;
+import fr.ul.miage.GenieLogiciel.View.menu.MenuUserView;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class DisplayMenuUser implements Command {
