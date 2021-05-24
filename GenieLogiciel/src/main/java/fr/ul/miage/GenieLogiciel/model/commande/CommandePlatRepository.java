@@ -60,6 +60,25 @@ public class CommandePlatRepository {
         return commandePlat;
     }
 
+    public CommandePlat update(CommandePlat commandePlat, int idCommande) {
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            String query = "UPDATE commande_plat SET etat = ? WHERE idCommande = ? AND idPlat = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, commandePlat.getEtat());
+            preparedStatement.setInt(2, idCommande);
+            preparedStatement.setInt(3, commandePlat.getPlat().getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(preparedStatement, null);
+        }
+        return commandePlat;
+    }
+
     public List<CommandePlat> findByIdCommande(int idCommande) {
         String query = "SELECT * FROM commande_plat WHERE idCommande = ?";
         Connection connection = bddController.getConnection();

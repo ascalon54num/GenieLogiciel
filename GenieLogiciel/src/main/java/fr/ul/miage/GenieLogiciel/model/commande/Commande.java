@@ -81,6 +81,21 @@ public class Commande {
         commandeRepository.save(this);
     }
 
+    public void save() {
+        commandeRepository.save(this);
+    }
+
+    public void facturer() {
+        plats.forEach(commandePlat -> {
+            commandePlat.setEtat("TERMINE");
+            commandePlat.update(id);
+        });
+        modifierStatut(CommandeStatut.STR_FACTUREE);
+        table.setAdvancementMeal("TERMINE");
+        table.save();
+        save();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

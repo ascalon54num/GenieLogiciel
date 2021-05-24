@@ -7,6 +7,12 @@ public class CommandePlat {
     private int quantite;
     private String etat;
 
+    private final CommandePlatRepository repository;
+
+    public CommandePlat() {
+        this.repository = new CommandePlatRepository();
+    }
+
     public Plat getPlat() {
         return plat;
     }
@@ -32,5 +38,9 @@ public class CommandePlat {
     public CommandePlat setEtat(String etat) {
         this.etat = etat;
         return this;
+    }
+
+    public void update(int idCommande) {
+        repository.update(this, idCommande);
     }
 }

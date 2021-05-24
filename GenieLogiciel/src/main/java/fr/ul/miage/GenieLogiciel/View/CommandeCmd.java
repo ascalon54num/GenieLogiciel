@@ -10,6 +10,7 @@ import fr.ul.miage.GenieLogiciel.model.table.TableRepository;
 import fr.ul.miage.GenieLogiciel.utils.Outil;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -110,14 +111,14 @@ public class CommandeCmd {
             if (plats.containsKey(idPlat)) {
                 Plat plat = plats.get(idPlat);
 
-                if(plat.isDisponible()) {
+                if (plat.isDisponible()) {
                     int finalIdPlat = idPlat;
                     boolean isPlatNonChoisi = commandePlats.stream()
                             .map(commandePlat -> commandePlat.getPlat().getId()).noneMatch(id -> id == finalIdPlat);
                     if (isPlatNonChoisi) {
                         System.out.print("Quantité de ce plat : ");
                         quantite = ScannerWithCheck.scannerIntUtilisateur(false, -1);
-                        commandePlats.add(new CommandePlat().setPlat(plat).setQuantite(quantite));
+                        commandePlats.add(new CommandePlat().setPlat(plat).setQuantite(quantite).setEtat("COMMANDE"));
 
                         System.out.print("Ajouter un autre plat (1/0) ? : ");
                         isFinishAddPlat = ScannerWithCheck.scannerIntUtilisateur(true, 1) == 0;
@@ -154,6 +155,38 @@ public class CommandeCmd {
         System.out.println("Liste des commandes :");
         Map<Integer, Commande> commandes = commandeRepository.findAll();
         commandes.forEach((id, commande) -> System.out.println(commande));
+    }
+
+    public void facturer() {
+        Map<Integer, Commande> commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.TERMINEE);
+        if (commandes.isEmpty()) {
+            System.err.println("Il n'y a aucune commande à facturer");
+            Outil.waitTime(500);
+            return;
+        }
+        System.out.println();
+        System.out.println("Liste des commandes à facturer :");
+        commandes.forEach((id, commande) -> System.out.println(commande));
+        int id = ScannerWithCheck.scannerIntUtilisateur(false, -1);
+        Commande commande;
+        if (commandes.containsKey(id)) {
+            commande = commandes.get(id);
+        } else {
+            System.err.println("Erreur de saisie");
+            Outil.waitTime(500);
+            return;
+        }
+        double prixCommande = 0;
+        double prixPlat;
+        DecimalFormat df = new DecimalFormat("0.##");
+        for (CommandePlat plat : commande.getPlats()) {
+            prixPlat = plat.getPlat().getPrix() * plat.getQuantite();
+            System.out.println(plat.getQuantite() + "x " + plat.getPlat().getLibelle() + " ==> " + df.format(prixPlat) + "€");
+            prixCommande += prixPlat;
+        }
+        System.out.println("==================");
+        System.out.println("TOTAL = " + df.format(prixCommande) + "€");
+        commande.facturer();
     }
 
     public void visualiser() {

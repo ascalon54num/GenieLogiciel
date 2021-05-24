@@ -274,6 +274,11 @@ public class CommandeController {
         openCommandeMenu();
     }
 
+    public void facturerCommande() {
+        executor.executeOperation(new FacturerCommande(commandeCmd));
+        openCommandeMenu();
+    }
+
     public void visualiserCommandesEntrante() {
         executor.executeOperation(new VisualiserCommande(commandeCmd));
         openCommandeMenu();

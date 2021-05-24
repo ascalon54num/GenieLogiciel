@@ -9,18 +9,18 @@ public class MenuCommandeView {
         System.out.println("=============================================================");
         System.out.println("MENU COMMANDES :");
         displayMenuMainIngredient();
-        System.out.print("Faites votre choix (1-5) : ");
-        int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 5);
+        System.out.print("Faites votre choix (1-6) : ");
+        int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 6);
         getPage(idMenu);
     }
 
     private void displayMenuMainIngredient() {
         System.out.println(
-                "┌───────┬─────────┬──────────┬────────────┬──────────┐\n" +
-                        "│ Liste │ Ajouter │ Modifier │ Visualiser │  Retour  │\n" +
-                        "├───────┼─────────┼──────────┼────────────┼──────────┤\n" +
-                        "│   1   │    2    │    3     │     4      │     5    │\n" +
-                        "└───────┴─────────┴──────────┴────────────┴──────────┘"
+                "┌───────┬─────────┬──────────┬────────────┬────────────┬──────────┐\n" +
+                        "│ Liste │ Ajouter │ Modifier │ Visualiser │  Facturer  │  Retour  │\n" +
+                        "├───────┼─────────┼──────────┼────────────┼────────────┼──────────┤\n" +
+                        "│   1   │    2    │    3     │     4      │     5      │     6    │\n" +
+                        "└───────┴─────────┴──────────┴────────────┴────────────┴──────────┘"
         );
     }
 
@@ -39,6 +39,8 @@ public class MenuCommandeView {
                 CommandeController.getInstance().visualiserCommandesEntrante();
                 break;
             case 5:
+                CommandeController.getInstance().facturerCommande();
+            case 6:
                 CommandeController.getInstance().openAccueilMenu();
                 break;
         }
