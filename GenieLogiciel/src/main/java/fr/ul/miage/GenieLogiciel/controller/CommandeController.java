@@ -10,6 +10,11 @@ import fr.ul.miage.GenieLogiciel.View.*;
 import fr.ul.miage.GenieLogiciel.model.categorie.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.table.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.user.cmd.AddUser;
+import fr.ul.miage.GenieLogiciel.model.user.cmd.DeleteUser;
+import fr.ul.miage.GenieLogiciel.model.user.cmd.DisplayMenuUser;
+import fr.ul.miage.GenieLogiciel.model.user.cmd.EditUser;
+import fr.ul.miage.GenieLogiciel.model.user.cmd.ListeUsers;
 import fr.ul.miage.GenieLogiciel.model.plat.cmd.*;
 
 public class CommandeController {
@@ -83,27 +88,27 @@ public class CommandeController {
 /////////////////
     
     public void openUserMenu() {
-        executor.executeOperation(new DisplayMenuIngredient(new MenuIngredientView()));
+        executor.executeOperation(new DisplayMenuUser(new MenuUserView()));
     }
 
     public void listeUser() {
-        executor.executeOperation(new ListeIngredient(new IngredientCmd()));
-        openIngredientMenu();
+        executor.executeOperation(new ListeUsers(new UserCmd()));
+        openUserMenu();
     }
 
     public void ajouterUser() {
-        executor.executeOperation(new AddIngredient(new IngredientCmd()));
-        openIngredientMenu();
+        executor.executeOperation(new AddUser(new UserCmd()));
+        openUserMenu();
     }
 
     public void modifierUser() {
-        executor.executeOperation(new EditIngredient(new IngredientCmd()));
-        openIngredientMenu();
+        executor.executeOperation(new EditUser(new UserCmd()));
+        openUserMenu();
     }
 
     public void supprimerUser() {
-        executor.executeOperation(new DeleteIngredient(new IngredientCmd()));
-        openIngredientMenu();
+        executor.executeOperation(new DeleteUser(new UserCmd()));
+        openUserMenu();
     }
 
     
