@@ -5,6 +5,7 @@ public class Table {
 	private int id;
 	private int nbCouvert;
 	private String statut;
+	private String advancementMeal;
 	
 	private final TableRepository tableRepository;
 	
@@ -49,11 +50,21 @@ public class Table {
 	
 	@Override
     public String toString() {
-        return "Table "+id + ": {statut = " + statut + ", nombre de couverts = " + nbCouvert + "}";
+        return "Table "+id + ": {statut = " + statut + ", avancement du repas = "+ (advancementMeal != null  ? advancementMeal :"") +" ,nombre de couverts = " + nbCouvert + "}";
     }
 
 	public void delete() {
 		tableRepository.deleteById(this.id);
 		
+	}
+
+	public String getAdvancementMeal() {
+		// TODO Auto-generated method stub
+		return this.advancementMeal;
+	}
+	
+	public Table setAdvancementMeal(String adv) {
+		this.advancementMeal = adv;
+		return this;
 	}
 }

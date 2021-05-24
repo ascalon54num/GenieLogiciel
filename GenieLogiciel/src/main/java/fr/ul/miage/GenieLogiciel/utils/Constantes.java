@@ -5,4 +5,5 @@ public class Constantes {
     public static final int QUANTITE_MAX_USERS = 100000;
     public static final int MAX_COUVERTS = 24;
     public static final String[] STATUS_TABLE = {"Libre", "Occupée", "A débarassée", "Réservée" };
+    public static final String[] AVANCEMENT_REPAS = {"Rien","Commande", "Entrée", "Plat", "Fromage", "Dessert", "Fini" };
 }

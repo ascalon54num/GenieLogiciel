@@ -7,6 +7,7 @@ import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 import fr.ul.miage.GenieLogiciel.model.plat.PlatRepository;
 import fr.ul.miage.GenieLogiciel.model.user.User;
 import fr.ul.miage.GenieLogiciel.model.user.UserRepository;
+import fr.ul.miage.GenieLogiciel.utils.Constantes;
 import fr.ul.miage.GenieLogiciel.utils.Outil;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
 
@@ -42,6 +43,7 @@ public class UserCmd {
 
         User user = new User();
         user.setNom(nom).setPrenom(prenom).setLogin(login).setRole(role);
+        user.save();
         System.out.println("Utilisateur ajouté = " + user);
         
     }
@@ -78,9 +80,9 @@ public class UserCmd {
 
         System.out.print("Prénom : ");
         String prenom = ScannerWithCheck.scannerStringUtilisateur(50);
-
+        System.out.print("Role de l'utilisateur  [1: DIRECTOR, 2: HOTELMASTER, 3 : SERVER, 4 : COOK] : ");
         System.out.print("Role : ");
-        int role = ScannerWithCheck.scannerIntUtilisateur(true, 1);
+        int role = ScannerWithCheck.scannerIntUtilisateur(false, 4);
 
        
         User newUser = new User();
@@ -91,7 +93,7 @@ public class UserCmd {
         }
         newUser.save();
 
-        System.out.println("Utilisateur ajouté = " + newUser);
+        System.out.println("Utilisateur modifié = " + newUser);
         
     }
     public void delete() {

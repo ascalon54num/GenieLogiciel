@@ -5,7 +5,8 @@ import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
 
 public class MenuAccueilView {
 
-    private static final int NB_CHOIX = 7;
+    private static final int NB_CHOIX = 8;
+
 
     public void show() {
         System.out.println("=============================================================");
@@ -18,11 +19,12 @@ public class MenuAccueilView {
 
     private void displayMenuMain() {
         System.out.println(
-                        "┌─────────────┬─────────────┬────────────┬───────┬────────┬─────────┬─────────┐\n" +
-                        "│  Commandes  │ Ingrédients │ Catégories │ Plats │ Tables │ Service │ Quitter │\n" +
-                        "├─────────────┼─────────────┼────────────┼───────┼────────┼─────────┼─────────┤\n" +
-                        "│      1      │     2       │     3      │   4   │   5    │    6    │    7    │\n" +
-                        "└─────────────┴─────────────┴────────────┴───────┴────────┴─────────┴─────────┘"
+
+                 "┌─────────────┬─────────────┬────────────┬───────┬────────┬─────────┬─────────────┬─────────┐\n" +
+                 "│  Commandes  │ Ingrédients │ Catégories │ Plats │ Tables │ Service │ Utilisateur │ Quitter │\n" +
+                 "├─────────────┼─────────────┼────────────┼───────┼────────┼─────────┼─────────────┼─────────┤\n" +
+                 "│      1      │     2       │     3      │   4   │   5    │    6    │     7       │    8    │\n" +
+                 "└─────────────┴─────────────┴────────────┴───────┴────────┴─────────┴─────────────┴─────────┘"
         );
     }
 
@@ -47,6 +49,8 @@ public class MenuAccueilView {
                 CommandeController.getInstance().openServiceMenu();
                 break;
             case 7:
+            	CommandeController.getInstance().openUserMenu();
+            case 8:
                 System.exit(0);
                 break;
         }

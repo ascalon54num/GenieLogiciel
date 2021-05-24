@@ -27,8 +27,9 @@ public class User {
 		return id;
 	}
 
-	public void setId(int id) {
+	public User setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getLogin() {
@@ -73,6 +74,7 @@ public class User {
         userRepository.deleteById(id);
     }
 	
+	//ajout ou MAJ d'un utilisateur
 	public void save() {
         userRepository.save(this);
     }
