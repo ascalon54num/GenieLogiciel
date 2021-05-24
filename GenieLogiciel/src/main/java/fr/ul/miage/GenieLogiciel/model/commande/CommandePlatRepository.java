@@ -44,11 +44,12 @@ public class CommandePlatRepository {
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            String query = "INSERT INTO commande_plat (quantite, idCommande, idPlat) VALUES (?, ?, ?)";
+            String query = "INSERT INTO commande_plat (quantite, idCommande, idPlat, etat) VALUES (?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, commandePlat.getQuantite());
             preparedStatement.setInt(2, idCommande);
             preparedStatement.setInt(3, commandePlat.getPlat().getId());
+            preparedStatement.setString(4, commandePlat.getEtat());
             preparedStatement.executeUpdate();
 
         } catch (SQLException exception) {
@@ -99,6 +100,7 @@ public class CommandePlatRepository {
     private static CommandePlat generateCommandePlat(ResultSet resultSet) throws SQLException {
         return new CommandePlat()
                 .setPlat(new PlatRepository().findOneById(resultSet.getInt("idPlat")))
-                .setQuantite(resultSet.getInt("quantite"));
+                .setQuantite(resultSet.getInt("quantite"))
+                .setEtat(resultSet.getString("etat"));
     }
 }

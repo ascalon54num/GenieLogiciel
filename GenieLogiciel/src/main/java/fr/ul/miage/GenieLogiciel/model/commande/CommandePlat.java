@@ -5,6 +5,7 @@ import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 public class CommandePlat {
     private Plat plat;
     private int quantite;
+    private String etat;
 
     public Plat getPlat() {
         return plat;
@@ -21,6 +22,15 @@ public class CommandePlat {
 
     public CommandePlat setQuantite(int quantite) {
         this.quantite = quantite;
+        return this;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public CommandePlat setEtat(String etat) {
+        this.etat = etat;
         return this;
     }
 }
