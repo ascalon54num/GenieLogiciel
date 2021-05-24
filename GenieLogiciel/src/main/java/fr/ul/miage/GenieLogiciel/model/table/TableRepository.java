@@ -131,7 +131,7 @@ public class TableRepository {
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			BddController.closeAll(connection, preparedStatement, resultSet);
+			BddController.closeAll(preparedStatement, resultSet);
 		}
 		return tableMap;
 	}
