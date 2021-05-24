@@ -112,6 +112,11 @@ public class CommandeController {
 		openTableMenu();
 	}
 	
+	public void changerAvancementRepasTable( ) {
+		executor.executeOperation(new ModifyAdvancementMealTable(new TableCmd()));
+		openTableMenu();
+	}
+	
 	public void showTable( ) {
 		executor.executeOperation(new ShowDetailTables(new TableCmd()));
 		openTableMenu();
