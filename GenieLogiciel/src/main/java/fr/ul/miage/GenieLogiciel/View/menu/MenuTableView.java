@@ -11,7 +11,7 @@ public class MenuTableView {
 	     System.out.println("MENU TABLES :");
 	     displayMenuMainTable();
 	     System.out.print("Faites votre choix (1-9) : ");
-	     int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 7);
+	     int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 9);
 	     getPage(idMenu);
 	}
 
