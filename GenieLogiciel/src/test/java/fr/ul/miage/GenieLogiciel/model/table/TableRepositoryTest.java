@@ -17,7 +17,7 @@ public class TableRepositoryTest {
 	
 	@BeforeEach
     void init() {
-		table1 = new Table().setNbCouvert(5).setStatut("Libre");
+		table1 = new Table().setNbCouvert(5).setStatut("Libre").setAdvancementMeal("Rien");
         this.subject = new TableRepository();
     }
 	

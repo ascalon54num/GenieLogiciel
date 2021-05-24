@@ -2,6 +2,7 @@ package fr.ul.miage.GenieLogiciel.View;
 
 import static fr.ul.miage.GenieLogiciel.utils.Constantes.MAX_COUVERTS;
 import static fr.ul.miage.GenieLogiciel.utils.Constantes.STATUS_TABLE;
+import static fr.ul.miage.GenieLogiciel.utils.Constantes.AVANCEMENT_REPAS;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,14 +35,26 @@ public class TableCmd {
         return tables;
 	}
 	
+	private Map<Integer, Table> listeOccupees() {
+		System.out.println();
+        System.out.println("Liste des tables :");
+        TableRepository tableRepository = new TableRepository();
+        Map<Integer, Table> tables = tableRepository.findAllOccupee();
+        tables.forEach((id, table) -> {
+        	System.out.println(table);
+        });
+        return tables;
+	}
+	
 	public void add() {
         System.out.println();
         System.out.print("Nombre de couvert : ");
         int nbCouverts = ScannerWithCheck.scannerIntUtilisateur(false, MAX_COUVERTS);
         String statut = "Libre";
+        String advancementMeal = AVANCEMENT_REPAS[0];
 
         Table newTable = new Table();
-        newTable.setNbCouvert(nbCouverts).setStatut(statut).save();
+        newTable.setNbCouvert(nbCouverts).setStatut(statut).setAdvancementMeal(advancementMeal).save();
         System.out.println("Table ajoutée = " + newTable);
     }
 
@@ -125,6 +138,7 @@ public class TableCmd {
             modifierStatus(table);
             System.out.print("Nouveau nombre de couverts(" + table.getNbCouvert() + ") : ");
             table.setNbCouvert(ScannerWithCheck.scannerIntUtilisateur(false, MAX_COUVERTS));
+            modifierAvancementMeal(table);
             table.save();
 
             System.out.println("Table modifiée = " + table);
@@ -171,4 +185,28 @@ public class TableCmd {
           	 System.out.println("-------------------------------------------------------------");
         }
 	}
+
+	public void changeAdvancementMeal() {
+		Map<Integer, Table> tables = listeOccupees();
+		System.out.print("Id de la table à modifier : ");
+        int idTable = ScannerWithCheck.scannerIntUtilisateur(false, -1);
+        if (tables.containsKey(idTable)) {
+            Table table = tables.get(idTable);
+            modifierAvancementMeal(table);
+            table.save();
+        } else {
+            System.err.println("Erreur de saisie");
+        }
+	}
+
+	private void modifierAvancementMeal(Table table) {
+		System.out.println("Liste des étapes d'un repas:");
+		for(int i = 0;i< AVANCEMENT_REPAS.length;i++) {
+			System.out.println(i+" "+AVANCEMENT_REPAS[i]);
+		}
+		System.out.print("Nouvelle étape ("+table.getAdvancementMeal()+") :");
+		table.setAdvancementMeal(AVANCEMENT_REPAS[ScannerWithCheck.scannerIntUtilisateur(true, AVANCEMENT_REPAS.length-1)]);	
+		System.out.println("Etape repas modifiée : "+table.getAdvancementMeal());
+	}
+
 }

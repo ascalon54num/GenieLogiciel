@@ -10,7 +10,7 @@ public class MenuTableView {
 		 System.out.println("=============================================================");
 	     System.out.println("MENU TABLES :");
 	     displayMenuMainTable();
-	     System.out.print("Faites votre choix (1-8) : ");
+	     System.out.print("Faites votre choix (1-9) : ");
 	     int idMenu = ScannerWithCheck.scannerIntUtilisateur(false, 7);
 	     getPage(idMenu);
 	}
@@ -30,15 +30,18 @@ public class MenuTableView {
 	            CommandeController.getInstance().changerStatutTable();
 	            break;
 	        case 5:
-	            CommandeController.getInstance().supprimerTable();
+	        	CommandeController.getInstance().changerAvancementRepasTable();
 	            break;
 	        case 6:
-	            CommandeController.getInstance().affecterTable();
+	            CommandeController.getInstance().supprimerTable();
 	            break;
 	        case 7:
-	            CommandeController.getInstance().showTable();
+	            CommandeController.getInstance().affecterTable();
 	            break;
 	        case 8:
+	            CommandeController.getInstance().showTable();
+	            break;
+	        case 9:
 	            CommandeController.getInstance().openAccueilMenu();
 	            break;
 		}
@@ -46,11 +49,11 @@ public class MenuTableView {
 
 	private void displayMenuMainTable() {
 		System.out.println(
-                "┌────────┬─────────┬──────────┬────────────────┬───────────┬───────────┬────────────┬────────┐\n" +
-                "│ Lister │ Ajouter │ Modifier │ Changer status │ Supprimer │  Affecter │ Visualiser │ Retour │\n" +
-                "├────────┼─────────┼──────────┼────────────────┼───────────┼───────────┼────────────┼────────┤\n" +
-                "│    1   │    2    │     3    │        4       │     5     │     6     │      7     │    8   │\n" +
-                "└────────┴─────────┴──────────┴────────────────┴───────────┴───────────┴────────────┴────────┘"
+                "┌────────┬─────────┬──────────┬────────────────┬──────────────────┬───────────┬───────────┬────────────┬────────┐\n" +
+                "│ Lister │ Ajouter │ Modifier │ Changer status │ Avancement Repas │ Supprimer │  Affecter │ Visualiser │ Retour │\n" +
+                "├────────┼─────────┼──────────┼────────────────┼──────────────────┼───────────┼───────────┼────────────┼────────┤\n" +
+                "│    1   │    2    │     3    │        4       │         5        │     6     │     7     │      8     │    9   │\n" +
+                "└────────┴─────────┴──────────┴────────────────┴──────────────────┴───────────┴───────────┴────────────┴────────┘"
         );
 	}
 

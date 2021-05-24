@@ -64,4 +64,20 @@ public class TableTest {
 			// Then
 			Assertions.assertEquals(Constantes.STATUS_TABLE[1], actual.getStatut());
 	   }
+	 
+	 @Test
+	    @DisplayName("Devrait modifier avancementRepas")
+	    void shouldModifiateAdvancementMeal() {
+	    	 // Given
+		    subject.setId(1).setStatut(Constantes.STATUS_TABLE[0]).setNbCouvert(5).setAdvancementMeal(Constantes.AVANCEMENT_REPAS[0]);
+	    	
+	    	// When
+	    	subject.setAdvancementMeal(Constantes.AVANCEMENT_REPAS[2]);
+	    	subject.save();
+	    	Mockito.verify(tableRepository).save(tableArgumentCaptor.capture());
+			Table actual = tableArgumentCaptor.getValue();
+	    	
+	    	//Then
+	    	Assertions.assertEquals(Constantes.AVANCEMENT_REPAS[2], actual.getAdvancementMeal());
+	    }
 }
