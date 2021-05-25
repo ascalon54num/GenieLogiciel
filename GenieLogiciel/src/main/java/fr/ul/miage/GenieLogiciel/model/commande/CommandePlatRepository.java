@@ -101,6 +101,28 @@ public class CommandePlatRepository {
         return plats;
     }
 
+    public List<CommandePlat> findByEtat(String etat) {
+        String query = "SELECT * FROM commande_plat WHERE etat = ?";
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<CommandePlat> plats = new ArrayList<>();
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, etat);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                plats.add(generateCommandePlat(resultSet));
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(preparedStatement, resultSet);
+        }
+
+        return plats;
+    }
+
     public void deleteByIdCommande(int id) {
         Connection connection = bddController.getConnection();
         PreparedStatement preparedStatement = null;
@@ -120,6 +142,7 @@ public class CommandePlatRepository {
         return new CommandePlat()
                 .setPlat(new PlatRepository().findOneById(resultSet.getInt("idPlat")))
                 .setQuantite(resultSet.getInt("quantite"))
-                .setEtat(resultSet.getString("etat"));
+                .setEtat(resultSet.getString("etat"))
+                .setIdCommande(resultSet.getInt("idCommande"));
     }
 }

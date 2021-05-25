@@ -1,24 +1,19 @@
 package fr.ul.miage.GenieLogiciel.controller;
 
 
-
+import fr.ul.miage.GenieLogiciel.View.*;
 import fr.ul.miage.GenieLogiciel.View.menu.*;
 import fr.ul.miage.GenieLogiciel.model.CommandExecutor;
 import fr.ul.miage.GenieLogiciel.model.ExempleOperation;
 import fr.ul.miage.GenieLogiciel.model.OperationExempleReceiver;
 import fr.ul.miage.GenieLogiciel.model.accueil.DisplayMenuAccueil;
-import fr.ul.miage.GenieLogiciel.View.*;
 import fr.ul.miage.GenieLogiciel.model.categorie.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.commande.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.ingredient.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.plat.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.service.cmd.*;
 import fr.ul.miage.GenieLogiciel.model.table.cmd.*;
-import fr.ul.miage.GenieLogiciel.model.user.cmd.AddUser;
-import fr.ul.miage.GenieLogiciel.model.user.cmd.DeleteUser;
-import fr.ul.miage.GenieLogiciel.model.user.cmd.DisplayMenuUser;
-import fr.ul.miage.GenieLogiciel.model.user.cmd.EditUser;
-import fr.ul.miage.GenieLogiciel.model.user.cmd.ListeUsers;
-import fr.ul.miage.GenieLogiciel.model.plat.cmd.*;
+import fr.ul.miage.GenieLogiciel.model.user.cmd.*;
 
 public class CommandeController {
 
@@ -88,12 +83,12 @@ public class CommandeController {
         executor.executeOperation(new ViderIngredient(new IngredientCmd()));
         openIngredientMenu();
     }
-    
-    
+
+
 /////////////////
 // UTILISATEURS //
 /////////////////
-    
+
     public void openUserMenu() {
         executor.executeOperation(new DisplayMenuUser(new MenuUserView()));
     }
@@ -118,55 +113,54 @@ public class CommandeController {
         openUserMenu();
     }
 
-    
-    
+
     //////////////////
-   //     Tables   //
-  //////////////////
-    
+    //     Tables   //
+    //////////////////
+
     public void openTableMenu() {
-		executor.executeOperation(new DisplayMenuTable(new MenuTableView()));
-	}
+        executor.executeOperation(new DisplayMenuTable(new MenuTableView()));
+    }
 
-	public void listeTable() {
-		executor.executeOperation(new ListeTable(new TableCmd()));
+    public void listeTable() {
+        executor.executeOperation(new ListeTable(new TableCmd()));
         openTableMenu();
-	}
+    }
 
-	public void ajouterTable() {
-		executor.executeOperation(new AddTable(new TableCmd()));
+    public void ajouterTable() {
+        executor.executeOperation(new AddTable(new TableCmd()));
         openTableMenu();
-	}
+    }
 
-	public void modifierTable() {
-		executor.executeOperation(new ModifyTable(new TableCmd()));
-		openTableMenu();
-	}
-	
-	public void changerStatutTable( ) {
-		executor.executeOperation(new ModifyStatusTable(new TableCmd()));
-		openTableMenu();
-	}
-	
-	public void changerAvancementRepasTable( ) {
-		executor.executeOperation(new ModifyAdvancementMealTable(new TableCmd()));
-		openTableMenu();
-	}
-	
-	public void showTable( ) {
-		executor.executeOperation(new ShowDetailTables(new TableCmd()));
-		openTableMenu();
-	}
-
-	public void supprimerTable() {
-		executor.executeOperation(new DeleteTable(new TableCmd()));
+    public void modifierTable() {
+        executor.executeOperation(new ModifyTable(new TableCmd()));
         openTableMenu();
-	}
+    }
 
-	public void affecterTable() {
-		executor.executeOperation(new AffecterTable(new TableCmd()));
+    public void changerStatutTable() {
+        executor.executeOperation(new ModifyStatusTable(new TableCmd()));
         openTableMenu();
-	}
+    }
+
+    public void changerAvancementRepasTable() {
+        executor.executeOperation(new ModifyAdvancementMealTable(new TableCmd()));
+        openTableMenu();
+    }
+
+    public void showTable() {
+        executor.executeOperation(new ShowDetailTables(new TableCmd()));
+        openTableMenu();
+    }
+
+    public void supprimerTable() {
+        executor.executeOperation(new DeleteTable(new TableCmd()));
+        openTableMenu();
+    }
+
+    public void affecterTable() {
+        executor.executeOperation(new AffecterTable(new TableCmd()));
+        openTableMenu();
+    }
 
 
     ////////////////
@@ -281,6 +275,11 @@ public class CommandeController {
 
     public void preparerPlatCommande() {
         executor.executeOperation(new PreparerPlatCommande(commandeCmd));
+        openCommandeMenu();
+    }
+
+    public void servirPlatCommande() {
+        executor.executeOperation(new ServirPlatCommande(commandeCmd));
         openCommandeMenu();
     }
 

@@ -119,7 +119,7 @@ public class CommandeCmd {
                     if (isPlatNonChoisi) {
                         System.out.print("Quantité de ce plat : ");
                         quantite = ScannerWithCheck.scannerIntUtilisateur(false, -1);
-                        commandePlats.add(new CommandePlat().setPlat(plat).setQuantite(quantite).setEtat("EMIS"));
+                        commandePlats.add(new CommandePlat().setPlat(plat).setQuantite(quantite).setEtat(CommandePlat.EMIS));
 
                         System.out.print("Ajouter un autre plat (1/0) ? : ");
                         isFinishAddPlat = ScannerWithCheck.scannerIntUtilisateur(true, 1) == 0;
@@ -233,8 +233,40 @@ public class CommandeCmd {
     }
 
     public void visualiser() {
+        System.out.println();
         System.out.println("Liste des commandes entrantes :");
         Map<Integer, Commande> commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.EMISE);
         commandes.forEach((id, commande) -> System.out.println(commande));
+    }
+
+    public void servirPlatCommande() {
+        List<CommandePlat> commandePlats = commandePlatRepository.findByEtat(CommandePlat.PRET);
+
+        if (commandePlats.isEmpty()) {
+            System.err.println("Il n'y a aucun plat à servir");
+            Outil.waitTime(500);
+            return;
+        }
+
+        System.out.println();
+        System.out.println("Liste des plats à servir :");
+        for (int i = 1; i <= commandePlats.size(); i++) {
+            System.out.println(i + " " + commandePlats.get(i - 1));
+        }
+
+        System.out.println("======================================");
+        System.out.print("Numéro à servir : ");
+        int id = ScannerWithCheck.scannerIntUtilisateur(false, commandePlats.size());
+        CommandePlat commandePlat = commandePlats.get(id - 1);
+        if (commandePlat != null) {
+            commandePlat.setEtat(CommandePlat.SERVI);
+            commandePlat.update(commandePlat.getIdCommande());
+            Outil.waitTime(500);
+            System.out.println("Servi !");
+            Outil.waitTime(1000);
+        } else {
+            System.err.println("Erreur de saisie");
+            Outil.waitTime(500);
+        }
     }
 }

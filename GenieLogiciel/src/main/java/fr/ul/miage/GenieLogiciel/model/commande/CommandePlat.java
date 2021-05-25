@@ -10,6 +10,7 @@ public class CommandePlat {
 
     private Plat plat;
     private int quantite;
+    private int idCommande;
     private String etat;
 
     private final CommandePlatRepository repository;
@@ -33,6 +34,15 @@ public class CommandePlat {
 
     public CommandePlat setQuantite(int quantite) {
         this.quantite = quantite;
+        return this;
+    }
+
+    public int getIdCommande() {
+        return idCommande;
+    }
+
+    public CommandePlat setIdCommande(int idCommande) {
+        this.idCommande = idCommande;
         return this;
     }
 
@@ -64,5 +74,10 @@ public class CommandePlat {
             plat.preparer();
             update(commandeId);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{plat = " + plat.getLibelle() + ", quantité = " + quantite + "}";
     }
 }
