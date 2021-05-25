@@ -98,7 +98,7 @@ public class Plat {
         return this;
     }
 
-    public void choisir() {
+    public void preparer() {
         if (canChoose()) {
             ingredients.forEach(IngredientPlat::utiliser);
         }

@@ -37,7 +37,7 @@ class PlatTest {
     @DisplayName("Devrait pouvoir être choisi")
     void shouldCanChooseOk() {
         // Given
-        Ingredient CAROTTE = new Ingredient().setQuantite(50);
+        Ingredient CAROTTE = new Ingredient().setQuantite(50).setLibelle("carotte");
         IngredientPlat INGREDIENT_PLAT = new IngredientPlat().setIngredient(CAROTTE).setPlat(subject).setQuantite(20);
         List<IngredientPlat> ingredients = new ArrayList<>();
         ingredients.add(INGREDIENT_PLAT);
@@ -54,7 +54,7 @@ class PlatTest {
     @DisplayName("Devrait pas être choisissable")
     void shouldCanChooseKo() {
         // Given
-        Ingredient CAROTTE = new Ingredient().setQuantite(50);
+        Ingredient CAROTTE = new Ingredient().setQuantite(50).setLibelle("carotte");
         IngredientPlat INGREDIENT_PLAT = new IngredientPlat().setIngredient(CAROTTE).setPlat(subject).setQuantite(100);
         List<IngredientPlat> ingredients = new ArrayList<>();
         ingredients.add(INGREDIENT_PLAT);
@@ -71,14 +71,14 @@ class PlatTest {
     @DisplayName("Devrait être choisi (50 - 30 = 20)")
     void shouldChoisirOk() {
         // Given
-        Ingredient CAROTTE = new Ingredient().setQuantite(50);
+        Ingredient CAROTTE = new Ingredient().setQuantite(50).setLibelle("carotte");
         IngredientPlat INGREDIENT_PLAT = new IngredientPlat().setIngredient(CAROTTE).setPlat(subject).setQuantite(30);
         List<IngredientPlat> ingredients = new ArrayList<>();
         ingredients.add(INGREDIENT_PLAT);
         subject.setLibelle("Salade de carotte").setCategorie(null).setId(1).setPlatDuJour(false).setDisponible(true).setPrix(4.5).setIngredients(ingredients);
 
         // When
-        subject.choisir();
+        subject.preparer();
 
         // Then
         Assertions.assertEquals(20, CAROTTE.getQuantite());
@@ -88,14 +88,14 @@ class PlatTest {
     @DisplayName("Devrait pas être choisi (50 - 100 < 0)")
     void shouldChoisirKo() {
         // Given
-        Ingredient CAROTTE = new Ingredient().setQuantite(50);
+        Ingredient CAROTTE = new Ingredient().setQuantite(50).setLibelle("carotte");
         IngredientPlat INGREDIENT_PLAT = new IngredientPlat().setIngredient(CAROTTE).setPlat(subject).setQuantite(100);
         List<IngredientPlat> ingredients = new ArrayList<>();
         ingredients.add(INGREDIENT_PLAT);
         subject.setLibelle("Salade de carotte").setCategorie(null).setId(1).setPlatDuJour(false).setDisponible(true).setPrix(4.5).setIngredients(ingredients);
 
         // When
-        subject.choisir();
+        subject.preparer();
 
         // Then
         Assertions.assertEquals(50, CAROTTE.getQuantite());

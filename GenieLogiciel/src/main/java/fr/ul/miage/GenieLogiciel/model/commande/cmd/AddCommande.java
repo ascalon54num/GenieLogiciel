@@ -1,7 +1,6 @@
 package fr.ul.miage.GenieLogiciel.model.commande.cmd;
 
 import fr.ul.miage.GenieLogiciel.View.CommandeCmd;
-import fr.ul.miage.GenieLogiciel.View.ServiceCmd;
 import fr.ul.miage.GenieLogiciel.model.Command;
 
 public class AddCommande implements Command {
@@ -14,7 +13,7 @@ public class AddCommande implements Command {
 
     @Override
     public void execute() {
-        cmd.update(true);
+        cmd.save(true);
     }
 
 }

@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CommandeCmd {
     private final CommandeRepository commandeRepository;
@@ -32,7 +33,7 @@ public class CommandeCmd {
         this.commandeStatutRepository = new CommandeStatutRepository();
     }
 
-    public void update(boolean isCreate) {
+    public void save(boolean isCreate) {
         Commande oldCommande = null;
         if (!isCreate) {
             Map<Integer, Commande> commandes = commandeRepository.findAll();
@@ -118,7 +119,7 @@ public class CommandeCmd {
                     if (isPlatNonChoisi) {
                         System.out.print("Quantité de ce plat : ");
                         quantite = ScannerWithCheck.scannerIntUtilisateur(false, -1);
-                        commandePlats.add(new CommandePlat().setPlat(plat).setQuantite(quantite).setEtat("COMMANDE"));
+                        commandePlats.add(new CommandePlat().setPlat(plat).setQuantite(quantite).setEtat("EMIS"));
 
                         System.out.print("Ajouter un autre plat (1/0) ? : ");
                         isFinishAddPlat = ScannerWithCheck.scannerIntUtilisateur(true, 1) == 0;
@@ -155,6 +156,47 @@ public class CommandeCmd {
         System.out.println("Liste des commandes :");
         Map<Integer, Commande> commandes = commandeRepository.findAll();
         commandes.forEach((id, commande) -> System.out.println(commande));
+    }
+
+    public void preparerPlatCommande() {
+        Commande commande = commandeRepository.getProchaineCommandeAPreparerPlat();
+
+        if (commande == null) {
+            System.err.println("Il n'y a aucune commande en cours");
+            Outil.waitTime(500);
+            return;
+        }
+
+        System.out.println();
+        List<CommandePlat> listePlatsAPreparer = commande.getPlats().stream().filter(commandePlat -> commandePlat.getEtat().equals(CommandePlat.EMIS)).collect(Collectors.toList());
+        int platsSize = listePlatsAPreparer.size();
+        if (platsSize > 0) {
+            CommandePlat commandePlat = listePlatsAPreparer.get(0);
+            if (commandePlat.checkIfIngredientsOk()) {
+                System.out.println("Plat à préparer :");
+                System.out.println(commandePlat.getPlat() + " x" + commandePlat.getQuantite());
+                System.out.print("Voulez-vous préparer le plat suivant (1/0) ?");
+                if (ScannerWithCheck.scannerIntUtilisateur(true, 1) == 1) {
+                    for (int i = 0; i < commandePlat.getQuantite(); i++) {
+                        commandePlat.preparer(commande.getId());
+                        Outil.waitTime(1000);
+                        System.out.println("Plat préparé !");
+                    }
+                    if (platsSize == 1) {
+                        commande.modifierStatut(CommandeStatut.EN_COURS, CommandeStatut.STR_EN_COURS);
+                        commande.save();
+                    }
+                }
+            } else {
+                Outil.waitTime(500);
+                System.err.println("Il manque des ingrédients pour faire le plat: ");
+                Outil.waitTime(100);
+                System.out.println(commandePlat.getPlat() + " x" + commandePlat.getQuantite());
+            }
+        } else {
+            System.err.println("Il n'y a aucun plat à préparer");
+            Outil.waitTime(500);
+        }
     }
 
     public void facturer() {

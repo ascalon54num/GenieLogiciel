@@ -44,9 +44,14 @@ public class Ingredient {
         return this;
     }
 
+    public boolean enASuffisament(int quantiteATester) {
+        return quantite >= quantiteATester;
+    }
+
     public void utiliser(int quantiteAUtiliser) {
-        if (quantite >= quantiteAUtiliser) {
+        if (enASuffisament(quantiteAUtiliser)) {
             quantite -= quantiteAUtiliser;
+            save();
         }
     }
 

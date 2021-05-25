@@ -5,6 +5,7 @@ public class CommandeStatut {
     public static final int EN_COURS = 2;
     public static final int FACTUREE = 3;
     public static final String STR_FACTUREE = "FACTUREE";
+    public static final String STR_EN_COURS = "EN COURS";
 
     private int id;
     private String libelle;

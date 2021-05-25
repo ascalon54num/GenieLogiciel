@@ -279,6 +279,11 @@ public class CommandeController {
         openCommandeMenu();
     }
 
+    public void preparerPlatCommande() {
+        executor.executeOperation(new PreparerPlatCommande(commandeCmd));
+        openCommandeMenu();
+    }
+
     public void visualiserCommandesEntrante() {
         executor.executeOperation(new VisualiserCommande(commandeCmd));
         openCommandeMenu();

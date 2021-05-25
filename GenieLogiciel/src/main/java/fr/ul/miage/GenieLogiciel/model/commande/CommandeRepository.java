@@ -62,6 +62,27 @@ public class CommandeRepository {
         return commandes;
     }
 
+    public Commande getProchaineCommandeAPreparerPlat() {
+        String query = "SELECT * FROM commande WHERE idStatutCommande = ? LIMIT 1";
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Commande commande = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, CommandeStatut.EMISE);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                commande = generateCommande(resultSet);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(preparedStatement, resultSet);
+        }
+        return commande;
+    }
+
     public Commande findOneById(int id) {
         String query = "SELECT * FROM commande WHERE idCommande = ?";
         Connection connection = bddController.getConnection();
