@@ -158,7 +158,7 @@ public class CommandeCmd {
     }
 
     public void facturer() {
-        Map<Integer, Commande> commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.TERMINEE);
+        Map<Integer, Commande> commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.EN_COURS);
         if (commandes.isEmpty()) {
             System.err.println("Il n'y a aucune commande à facturer");
             Outil.waitTime(500);
@@ -179,6 +179,7 @@ public class CommandeCmd {
         double prixCommande = 0;
         double prixPlat;
         DecimalFormat df = new DecimalFormat("0.##");
+        System.out.println("FACTURE: ");
         for (CommandePlat plat : commande.getPlats()) {
             prixPlat = plat.getPlat().getPrix() * plat.getQuantite();
             System.out.println(plat.getQuantite() + "x " + plat.getPlat().getLibelle() + " ==> " + df.format(prixPlat) + "€");

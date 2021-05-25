@@ -84,10 +84,10 @@ class CommandeTest {
     @DisplayName("Mise a jour du statut de la commande")
     void shouldMajStatut() {
         // Given
-        CommandeStatut STATUT_PRET = new CommandeStatut().setLibelle("Prêt");
+        CommandeStatut STATUT_PRET = new CommandeStatut().setLibelle("Prêt").setId(1);
 
         // When
-        subject.modifierStatut(STATUT_PRET.getLibelle());
+        subject.modifierStatut(STATUT_PRET.getId(), STATUT_PRET.getLibelle());
 
         // Then
         Assertions.assertEquals("Prêt", subject.getStatut().getLibelle());

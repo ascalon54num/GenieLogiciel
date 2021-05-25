@@ -73,7 +73,8 @@ public class Commande {
         }
     }
 
-    public void modifierStatut(String statut) {
+    public void modifierStatut(int statutId, String statut) {
+        this.statut.setId(statutId);
         this.statut.setLibelle(statut);
     }
 
@@ -90,7 +91,7 @@ public class Commande {
             commandePlat.setEtat("TERMINE");
             commandePlat.update(id);
         });
-        modifierStatut(CommandeStatut.STR_FACTUREE);
+        modifierStatut(CommandeStatut.FACTUREE, CommandeStatut.STR_FACTUREE);
         table.setAdvancementMeal("TERMINE");
         table.save();
         save();
