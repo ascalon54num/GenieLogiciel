@@ -4,6 +4,7 @@ package fr.ul.miage.GenieLogiciel.controller;
 import fr.ul.miage.GenieLogiciel.View.*;
 import fr.ul.miage.GenieLogiciel.View.menu.*;
 import fr.ul.miage.GenieLogiciel.model.CommandExecutor;
+import fr.ul.miage.GenieLogiciel.model.DisplayRestrictionAccess;
 import fr.ul.miage.GenieLogiciel.model.ExempleOperation;
 import fr.ul.miage.GenieLogiciel.model.OperationExempleReceiver;
 import fr.ul.miage.GenieLogiciel.model.accueil.DisplayMenuAccueil;
@@ -25,6 +26,7 @@ public class CommandeController {
     private final ServiceCmd serviceCmd;
     private final CommandeCmd commandeCmd;
     private final PlatCmd platCmd;
+    private AccessController accessController;
 
     private CommandeController() {
         executor = new CommandExecutor();
@@ -32,6 +34,7 @@ public class CommandeController {
         platCmd = new PlatCmd();
         serviceCmd = new ServiceCmd();
         commandeCmd = new CommandeCmd();
+        accessController = new AccessController();
     }
 
     public static CommandeController getInstance() {
@@ -51,7 +54,12 @@ public class CommandeController {
     // INGREDIENTS //
     /////////////////
     public void openIngredientMenu() {
-        executor.executeOperation(new DisplayMenuIngredient(new MenuIngredientView()));
+    	if(accessController.checkIngredientsAccess()) {
+    		executor.executeOperation(new DisplayMenuIngredient(new MenuIngredientView()));
+    	} else {
+    		executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+    		openAccueilMenu();
+    	}
     }
 
     public void listeIngredient() {
@@ -90,7 +98,12 @@ public class CommandeController {
 /////////////////
 
     public void openUserMenu() {
-        executor.executeOperation(new DisplayMenuUser(new MenuUserView()));
+    	if(accessController.checkUtilisateursAccess()) {
+        	executor.executeOperation(new DisplayMenuUser(new MenuUserView()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+			openAccueilMenu();
+		}
     }
 
     public void listeUser() {
@@ -119,46 +132,83 @@ public class CommandeController {
     //////////////////
 
     public void openTableMenu() {
-        executor.executeOperation(new DisplayMenuTable(new MenuTableView()));
+    	if(accessController.checkTablesAccess()) {
+         executor.executeOperation(new DisplayMenuTable(new MenuTableView()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+			openAccueilMenu();
+		}
     }
 
     public void listeTable() {
-        executor.executeOperation(new ListeTable(new TableCmd()));
+    	if(accessController.checkViewTablesAccess()) {
+        	executor.executeOperation(new ListeTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void ajouterTable() {
-        executor.executeOperation(new AddTable(new TableCmd()));
+    	if(accessController.checkCRUDTablesAccess()) {
+        	executor.executeOperation(new AddTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void modifierTable() {
-        executor.executeOperation(new ModifyTable(new TableCmd()));
+    	if(accessController.checkCRUDTablesAccess()) {
+        	executor.executeOperation(new ModifyTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void changerStatutTable() {
-        executor.executeOperation(new ModifyStatusTable(new TableCmd()));
+    	if(accessController.checkModifStatusTablesAccess()) {
+    		executor.executeOperation(new ModifyStatusTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void changerAvancementRepasTable() {
-        executor.executeOperation(new ModifyAdvancementMealTable(new TableCmd()));
+    	if(accessController.checkModifAdvancementMealAccess()) {
+        	executor.executeOperation(new ModifyAdvancementMealTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void showTable() {
-        executor.executeOperation(new ShowDetailTables(new TableCmd()));
+    	if(accessController.checkViewTablesAccess()) {
+        	executor.executeOperation(new ShowDetailTables(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void supprimerTable() {
-        executor.executeOperation(new DeleteTable(new TableCmd()));
+    	if(accessController.checkCRUDTablesAccess()) {
+        	executor.executeOperation(new DeleteTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
     public void affecterTable() {
-        executor.executeOperation(new AffecterTable(new TableCmd()));
+    	if(accessController.checkAffectationTablesAccess()) {
+        	executor.executeOperation(new AffecterTable(new TableCmd()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openTableMenu();
     }
 
@@ -167,7 +217,12 @@ public class CommandeController {
     // CATEGORIES //
     ////////////////
     public void openCategorieMenu() {
-        executor.executeOperation(new DisplayMenuCategorie(new MenuCategorieView()));
+    	if (accessController.checkCategoriesAccess()) {
+        	executor.executeOperation(new DisplayMenuCategorie(new MenuCategorieView()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+			openAccueilMenu();
+		}
     }
 
     public void listeCategorie() {
@@ -194,7 +249,12 @@ public class CommandeController {
     // PLATS //
     ///////////
     public void openPlatMenu() {
-        executor.executeOperation(new DisplayMenuPlat(new MenuPlatView()));
+    	if(accessController.checkPlatsAccess()) {
+          executor.executeOperation(new DisplayMenuPlat(new MenuPlatView()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+			openAccueilMenu();
+		}
     }
 
     public void listePlat() {
@@ -222,7 +282,12 @@ public class CommandeController {
     // SERVICE //
     /////////////
     public void openServiceMenu() {
-        executor.executeOperation(new DisplayMenuService(new MenuServiceView()));
+    	if(accessController.checkServiceAccess()) {
+         executor.executeOperation(new DisplayMenuService(new MenuServiceView()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+			openAccueilMenu();
+		}
     }
 
     public void listeService() {
@@ -250,41 +315,74 @@ public class CommandeController {
     // COMMANDE //
     //////////////
     public void openCommandeMenu() {
-        executor.executeOperation(new DisplayMenuCommande(new MenuCommandeView()));
+    	if(accessController.checkCommandesAccess()) {
+         executor.executeOperation(new DisplayMenuCommande(new MenuCommandeView()));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+			openAccueilMenu();
+		}
     }
 
     public void listeCommande() {
-        executor.executeOperation(new ListeCommande(commandeCmd));
+    	if(accessController.checkViewCommandesAccess()) {
+        	executor.executeOperation(new ListeCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 
     public void ajouterCommande() {
-        executor.executeOperation(new AddCommande(commandeCmd));
+    	if(accessController.checkEditionCommandesAccess()) {
+        	executor.executeOperation(new AddCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 
     public void modifierCommande() {
-        executor.executeOperation(new EditCommande(commandeCmd));
+    	if(accessController.checkEditionCommandesAccess()) {
+        	executor.executeOperation(new EditCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 
     public void facturerCommande() {
-        executor.executeOperation(new FacturerCommande(commandeCmd));
+    	if(accessController.checkBillCommandesAccess()) {
+        	executor.executeOperation(new FacturerCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 
     public void preparerPlatCommande() {
-        executor.executeOperation(new PreparerPlatCommande(commandeCmd));
+    	if(accessController.checkPreparationCommandesAccess()) {
+        	executor.executeOperation(new PreparerPlatCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 
     public void servirPlatCommande() {
-        executor.executeOperation(new ServirPlatCommande(commandeCmd));
+    	if(accessController.checkCommandesServirAccess()) {
+        	executor.executeOperation(new ServirPlatCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 
     public void visualiserCommandesEntrante() {
-        executor.executeOperation(new VisualiserCommande(commandeCmd));
+    	if(accessController.checkViewCommandesAccess()) {
+        	executor.executeOperation(new VisualiserCommande(commandeCmd));
+	    } else {
+			executor.executeOperation(new DisplayRestrictionAccess(new RestrictionAccessView()));
+		}
         openCommandeMenu();
     }
 }

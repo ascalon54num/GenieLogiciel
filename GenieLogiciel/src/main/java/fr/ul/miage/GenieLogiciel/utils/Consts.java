@@ -13,6 +13,7 @@ public class Consts {
 		constants.get("ROLE").put("HOTELMASTER", 2);
 		constants.get("ROLE").put("SERVER", 3);
 		constants.get("ROLE").put("COOK", 4);
+		constants.get("ROLE").put("SERVICEASSISTANT", 5);
 	}
 	public static HashMap<String,HashMap<String, Integer>> getConstants() {
 		// TODO Auto-generated method stub
