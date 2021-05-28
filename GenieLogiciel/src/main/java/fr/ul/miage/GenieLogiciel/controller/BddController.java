@@ -11,8 +11,11 @@ import java.util.logging.Logger;
 public class BddController {
     //Logger pour gérer les messages console
     private static final Logger LOG = Logger.getLogger(BddController.class.getName());
+    //URL de la BDD
     private String url;
+    //Login user
     private String user;
+    //password BDD
     private String password;
     private Connection connection;
 
@@ -26,7 +29,10 @@ public class BddController {
             this.password = pwd;
         }
     }
-
+    /**
+     * Retourne la connection établie avec la BDD
+     * @return Connection
+     */
     public Connection getConnection() {
        if(connection == null) {
            try {
@@ -38,7 +44,11 @@ public class BddController {
 
         return connection;
     }
-
+    /**
+     * Ferme les statements et resulset
+     * @param statement
+     * @param resultSet
+     */
     public static void closeAll(Statement statement, ResultSet resultSet) {
         try {
             if (statement != null) {

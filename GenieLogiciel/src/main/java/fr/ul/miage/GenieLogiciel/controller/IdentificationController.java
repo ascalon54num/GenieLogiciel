@@ -17,11 +17,18 @@ public class IdentificationController {
 		 view = new IdentificationView(scan);
 	}
 	
+	/**
+	 * Initie la procédure d'identification
+	 */
 	public void initIdentification() {
 		String login = view.askLogin();
 		connect(login);
 	}
 
+	/**
+	 * Vérifie l'identité de l'utilisateur et établie une session
+	 * @param login
+	 */
 	public void connect(String login) {
 		
 		try {
