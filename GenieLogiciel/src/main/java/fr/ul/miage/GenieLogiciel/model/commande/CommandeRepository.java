@@ -5,6 +5,7 @@ import fr.ul.miage.GenieLogiciel.model.service.ServiceRepository;
 import fr.ul.miage.GenieLogiciel.model.table.TableRepository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -148,4 +149,56 @@ public class CommandeRepository {
                 .setService(new ServiceRepository().findOneById(resultSet.getInt("idService")))
                 .setTable(new TableRepository().findOneById(resultSet.getInt("idTable")));
     }
+
+	public Map<Integer, Commande> findAllIn(ArrayList<Integer> tablesServer) {
+		String query;
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Commande> commandeMap = new TreeMap<>();
+        	for (Integer integer : tablesServer) {
+        		query= "SELECT * FROM commande WHERE idTable = ?";
+        		try {
+	        		preparedStatement = connection.prepareStatement(query);
+					preparedStatement.setInt(1, integer);
+					resultSet = preparedStatement.executeQuery();
+		            while (resultSet.next()) {
+		                Commande commande = generateCommande(resultSet);
+		                commandeMap.put(commande.getId(), commande);
+		            }
+        		} catch (SQLException exception) {
+                    exception.printStackTrace();
+                } finally {
+                    BddController.closeAll(preparedStatement, resultSet);
+                }
+        	}
+        return commandeMap;
+	}
+
+	public Map<Integer, Commande> getCommandesWithStatusIn(int idStatus, ArrayList<Integer> tablesServer) {
+		String query;
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Map<Integer, Commande> commandes = new HashMap<>();
+        Commande commande;
+        	for (Integer integer : tablesServer) {
+				query = "SELECT * FROM commande WHERE idStatutCommande = ? AND idTable = ?";
+				try {
+		            preparedStatement = connection.prepareStatement(query);
+		            preparedStatement.setInt(1, idStatus);
+		            preparedStatement.setInt(2, integer);
+		            resultSet = preparedStatement.executeQuery();
+		            while (resultSet.next()) {
+		                commande = generateCommande(resultSet);
+		                commandes.put(commande.getId(), commande);
+		            }
+	        	 } catch (SQLException exception) {
+	                 exception.printStackTrace();
+	             } finally {
+	                 BddController.closeAll(preparedStatement, resultSet);
+	             }
+        	}
+        return commandes;
+	}
 }

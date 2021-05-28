@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,7 +115,29 @@ public class AffectationRepository {
 
         return affectation;
 	}
+	
+	public ArrayList<Integer> findTableByServer(int serverId) {
+		String query = "SELECT DISTINCT idTable FROM affectation WHERE idServeur = ?";
+        BddController bddController = new BddController();
+        Connection connection = bddController.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<Integer>  tables = new ArrayList<Integer>();
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, serverId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+               tables.add(resultSet.getInt("idTable"));
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            BddController.closeAll(preparedStatement, resultSet);
+        }
 
+        return tables;
+	}
 	public Affectation findOneById(int id) {
 		String query = "SELECT * FROM affectation WHERE idAffectation = ?";
         BddController bddController = new BddController();

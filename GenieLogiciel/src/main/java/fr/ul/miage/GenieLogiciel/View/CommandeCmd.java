@@ -1,5 +1,6 @@
 package fr.ul.miage.GenieLogiciel.View;
 
+import fr.ul.miage.GenieLogiciel.model.affectation.AffectationRepository;
 import fr.ul.miage.GenieLogiciel.model.commande.*;
 import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 import fr.ul.miage.GenieLogiciel.model.plat.PlatRepository;
@@ -7,8 +8,11 @@ import fr.ul.miage.GenieLogiciel.model.service.Service;
 import fr.ul.miage.GenieLogiciel.model.service.ServiceRepository;
 import fr.ul.miage.GenieLogiciel.model.table.Table;
 import fr.ul.miage.GenieLogiciel.model.table.TableRepository;
+import fr.ul.miage.GenieLogiciel.model.user.User;
+import fr.ul.miage.GenieLogiciel.utils.Consts;
 import fr.ul.miage.GenieLogiciel.utils.Outil;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
+import fr.ul.miage.GenieLogiciel.utils.Session;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -23,6 +27,7 @@ public class CommandeCmd {
     private final PlatRepository platRepository;
     private final CommandePlatRepository commandePlatRepository;
     private final CommandeStatutRepository commandeStatutRepository;
+	private final User currentUser;
 
     public CommandeCmd() {
         this.commandeRepository = new CommandeRepository();
@@ -31,12 +36,19 @@ public class CommandeCmd {
         this.platRepository = new PlatRepository();
         this.commandePlatRepository = new CommandePlatRepository();
         this.commandeStatutRepository = new CommandeStatutRepository();
+        this.currentUser = Session.getInstance().getCurrentUser();
     }
 
     public void save(boolean isCreate) {
         Commande oldCommande = null;
         if (!isCreate) {
-            Map<Integer, Commande> commandes = commandeRepository.findAll();
+            Map<Integer, Commande> commandes;
+            if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+            	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+            	commandes = commandeRepository.findAllIn(tablesServer);
+            } else {
+            	commandes = commandeRepository.findAll();
+            }
             if (commandes.isEmpty()) {
                 System.err.println("Il n'y a aucune commande d'enregistrée");
                 Outil.waitTime(500);
@@ -55,7 +67,13 @@ public class CommandeCmd {
             }
         }
 
-        Map<Integer, Table> tables = tableRepository.findAll();
+        Map<Integer, Table> tables;
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	tables = tableRepository.findAllIn(tablesServer);
+        } else {
+        	tables = tableRepository.findAll();
+        }
         if (tables.isEmpty()) {
             System.err.println("Il n'y a pas de table d'enregistrée");
             Outil.waitTime(500);
@@ -154,7 +172,13 @@ public class CommandeCmd {
     public void liste() {
         System.out.println();
         System.out.println("Liste des commandes :");
-        Map<Integer, Commande> commandes = commandeRepository.findAll();
+        Map<Integer, Commande> commandes;
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	commandes = commandeRepository.findAllIn(tablesServer);
+        } else {
+        	commandes = commandeRepository.findAll();
+        }
         commandes.forEach((id, commande) -> System.out.println(commande));
     }
 
@@ -200,7 +224,13 @@ public class CommandeCmd {
     }
 
     public void facturer() {
-        Map<Integer, Commande> commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.EN_COURS);
+        Map<Integer, Commande> commandes;
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	commandes = commandeRepository.getCommandesWithStatusIn(CommandeStatut.EN_COURS,tablesServer);
+        } else {
+        	commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.EN_COURS);
+        }
         if (commandes.isEmpty()) {
             System.err.println("Il n'y a aucune commande à facturer");
             Outil.waitTime(500);
@@ -236,12 +266,30 @@ public class CommandeCmd {
         System.out.println();
         System.out.println("Liste des commandes entrantes :");
         Map<Integer, Commande> commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.EMISE);
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	commandes = commandeRepository.getCommandesWithStatusIn(CommandeStatut.EMISE,tablesServer);
+        } else {
+        	commandes = commandeRepository.getCommandesWithStatus(CommandeStatut.EMISE);
+        }
         commandes.forEach((id, commande) -> System.out.println(commande));
     }
 
     public void servirPlatCommande() {
         List<CommandePlat> commandePlats = commandePlatRepository.findByEtat(CommandePlat.PRET);
-
+        ArrayList<Integer> elemToRemove = new ArrayList<Integer>();
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	for (CommandePlat commandePlat : commandePlats) {
+        		Commande commande = commandeRepository.findOneById(commandePlat.getIdCommande());
+				if(!tablesServer.contains(commande.getTable().getId())) {
+					elemToRemove.add(commandePlats.indexOf(commandePlat));
+				}
+			}
+        }
+        for (Integer i : elemToRemove) {
+			commandePlats.remove(commandePlats.get(i));
+		}
         if (commandePlats.isEmpty()) {
             System.err.println("Il n'y a aucun plat à servir");
             Outil.waitTime(500);

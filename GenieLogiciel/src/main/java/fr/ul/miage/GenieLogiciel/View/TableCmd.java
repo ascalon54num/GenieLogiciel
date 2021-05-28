@@ -13,8 +13,10 @@ import fr.ul.miage.GenieLogiciel.model.table.Table;
 import fr.ul.miage.GenieLogiciel.model.table.TableRepository;
 import fr.ul.miage.GenieLogiciel.model.user.User;
 import fr.ul.miage.GenieLogiciel.model.user.UserRepository;
+import fr.ul.miage.GenieLogiciel.utils.Constantes;
 import fr.ul.miage.GenieLogiciel.utils.Consts;
 import fr.ul.miage.GenieLogiciel.utils.ScannerWithCheck;
+import fr.ul.miage.GenieLogiciel.utils.Session;
 
 
 
@@ -28,7 +30,15 @@ public class TableCmd {
 		System.out.println();
         System.out.println("Liste des tables :");
         TableRepository tableRepository = new TableRepository();
-        Map<Integer, Table> tables = tableRepository.findAll();
+        Map<Integer, Table> tables;
+        User currentUser = Session.getInstance().getCurrentUser();
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	tables= tableRepository.findAllIn(tablesServer);
+        }
+        else {
+        	tables = tableRepository.findAll();
+        }
         tables.forEach((id, table) -> {
         	System.out.println(table);
         });
@@ -39,7 +49,14 @@ public class TableCmd {
 		System.out.println();
         System.out.println("Liste des tables :");
         TableRepository tableRepository = new TableRepository();
-        Map<Integer, Table> tables = tableRepository.findAllOccupee();
+        Map<Integer, Table> tables;
+        User currentUser = Session.getInstance().getCurrentUser();
+        if(currentUser.getRole()==Consts.getConstants().get("ROLE").get("SERVER")) {
+        	ArrayList<Integer> tablesServer = new AffectationRepository().findTableByServer(currentUser.getId());
+        	tables = tableRepository.findAllOccupeeIn(tablesServer);
+        } else {
+        	tables = tableRepository.findAllOccupee();
+        }
         tables.forEach((id, table) -> {
         	System.out.println(table);
         });
