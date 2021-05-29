@@ -3,6 +3,7 @@ package fr.ul.miage.GenieLogiciel.model.commande;
 import fr.ul.miage.GenieLogiciel.model.plat.Plat;
 import fr.ul.miage.GenieLogiciel.model.service.Service;
 import fr.ul.miage.GenieLogiciel.model.table.Table;
+import fr.ul.miage.GenieLogiciel.utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,11 +89,11 @@ public class Commande {
 
     public void facturer() {
         plats.forEach(commandePlat -> {
-            commandePlat.setEtat("TERMINE");
+            commandePlat.setEtat(Constantes.AVANCEMENT_REPAS[6]);
             commandePlat.update(id);
         });
         modifierStatut(CommandeStatut.FACTUREE, CommandeStatut.STR_FACTUREE);
-        table.setAdvancementMeal("TERMINE");
+        table.setAdvancementMeal(Constantes.AVANCEMENT_REPAS[6]);
         table.save();
         save();
     }
